@@ -1,3 +1,8 @@
 # JukeBox
 
-Contact : dev.jukebox@gmail.com
+## Requirement
+lamp server
+
+
+##Contact
+ dev.jukebox@gmail.com
