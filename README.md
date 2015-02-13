@@ -4,11 +4,24 @@
 
 sudo apt-get update
 
-sudo apt-get install apache2 php5 mysql-server libapache2-mod-php5 php5-mysql
+One shot install :
 
-cd /var/www/
-
+```shell
 git clone git@github.com:IRISIB/JukeBox.git
+cd JukeBox
+virtualenv --distribute --no-site-packages ve
+source ve/bin/activate
+pip install -r requirements.txt
+chmod +x ./manage.py
+```
+
+Run :
+
+```shell
+source ve/bin/activate # Do only once (if it's a new tty)
+./manage.py runserver
+```
+
 
 ## Contact information
 
