@@ -1,5 +1,7 @@
 #Django en resumé :  [Annexes](http://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-django/deployer-votre-application-en-production)
 
+[PREV](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/4-Django_resume_outils_supplementaires.md)
+
 ## Déployer votre application en production 
 En résumé :
 
@@ -14,3 +16,5 @@ En résumé :
 * Sentry est un projet Django permettant de surveiller votre propre projet de manière plus fine.
 
 ## [L'utilitaire manage.py](http://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-django/l-utilitaire-manage-py)  
+
+[PREV](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/4-Django_resume_outils_supplementaires.md)

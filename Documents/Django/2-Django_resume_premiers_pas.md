@@ -1,5 +1,8 @@
 #Django en resumé : [Les premiers pas](http://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-django/votre-premiere-page-grace-aux-vues)
 
+[PREV](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/1-Django_resume_presentation.md)
+[NEXT](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/3-Django_resume_techniques_avancees)
+
 ##Votre première page grâce aux vues
 En résumé:
 ![alt text](http://uploads.siteduzero.com/thb/394001_395000/394741.png)
@@ -83,3 +86,6 @@ En résumé:
 * Le stockage d'une image dans un objet en base se fait via un champ models.ImageField. Le stockage d'un fichier quelconque est similaire, avec models.FileField.
 
 * Les fichiers uploadés seront stockés dans le répertoire fourni par MEDIA_ROOT dans votre settings.py.
+
+[PREV](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/1-Django_resume_presentation.md)
+[NEXT](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/3-Django_resume_techniques_avancees)XT]()

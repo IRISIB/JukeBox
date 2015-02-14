@@ -1,5 +1,8 @@
 #Django en resumé : [Des outils supplémentaires](http://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-django/les-utilisateurs-2)
 
+[PREV](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/3-Django_resume_techniques_avancees.md)
+[NEXT](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/5-Django_resume_annexes.md)
+
 ##  Les utilisateurs 
 En résumé :
 
@@ -83,3 +86,6 @@ En résumé :
 * Il existe des centaines de modules non officiels permettant de compléter votre installation et d'intégrer de nouvelles fonctionnalités.
 
 * Nous avons présenté ici humanize, qui rend vos données plus naturelles dans vos templates, et flatpages qui permet de gérer vos pages statiques via l'administration.
+
+[PREV](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/3-Django_resume_techniques_avancees.md)
+[NEXT](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/5-Django_resume_annexes.md)

@@ -1,5 +1,8 @@
 #Django en resumé : [Les techniques avancées](http://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-django/les-vues-generiques)
 
+[PREV](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/2-Django_resume_premiers_pas.md)
+[NEXT](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/4-Django_resume_outils_supplementaires.md)
+
 ## Les vues génériques 
 En résumé:
 
@@ -53,3 +56,6 @@ En résumé :
 * Les middlewares sont des classes instanciées à chaque requête, exception, ou encore génération de template, dans l'ordre donné par MIDDLEWARE_CLASSES.
 
 * Ils permettent d'effectuer une tâche précise à chaque appel.
+
+[PREV](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/2-Django_resume_premiers_pas.md)
+[NEXT](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/4-Django_resume_outils_supplementaires.md)

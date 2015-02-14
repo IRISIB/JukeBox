@@ -1,5 +1,7 @@
 #Django en resumé : [ Présentation de Django ](http://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-django/creez-vos-applications-web-avec-django)
 
+[NEXT](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/2-Django_resume_premiers_pas.md)
+
 ##Le fonctionnement de Django
 
 Schéma de l'architecture MVC:
@@ -47,4 +49,4 @@ En résumé :
 * Une ligne dans une table peut être liée à une autre ligne d'une autre table via le principe de clés étrangères : nous gardons l'identifiant de la ligne de la seconde table dans une colonne de la ligne de la première table.
 
 
-
+[NEXT](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/2-Django_resume_premiers_pas.md)
