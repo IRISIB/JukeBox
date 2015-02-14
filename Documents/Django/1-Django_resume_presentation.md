@@ -1,11 +1,15 @@
 #Django en resumé : [ Présentation de Django ](http://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-django/creez-vos-applications-web-avec-django)
 
 ##Le fonctionnement de Django
+
 Schéma de l'architecture MVC:
+
 ![alt text](http://uploads.siteduzero.com/files/386001_387000/386515.png)
 
 Schéma d'exécution d'une requête:
+
 ![alt text](http://uploads.siteduzero.com/files/386001_387000/386517.png)
+
 En résumé :
 
 * Django respecte l'architecture MVT, directement inspirée du très populaire modèle MVC ;
