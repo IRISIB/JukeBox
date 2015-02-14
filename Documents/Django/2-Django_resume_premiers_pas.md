@@ -1,7 +1,7 @@
 #Django en resumé : [Les premiers pas](http://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-django/votre-premiere-page-grace-aux-vues)
 
 [PREV](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/1-Django_resume_presentation.md)
-[NEXT](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/3-Django_resume_techniques_avancees)
+[NEXT](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/3-Django_resume_techniques_avancees.md)
 
 ##Votre première page grâce aux vues
 En résumé:
@@ -88,4 +88,4 @@ En résumé:
 * Les fichiers uploadés seront stockés dans le répertoire fourni par MEDIA_ROOT dans votre settings.py.
 
 [PREV](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/1-Django_resume_presentation.md)
-[NEXT](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/3-Django_resume_techniques_avancees)XT]()
+[NEXT](https://github.com/IRISIB/JukeBox/blob/master/Documents/Django/3-Django_resume_techniques_avancees.md)
