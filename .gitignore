@@ -1,3 +1,4 @@
 ve/
 *.pyc
 *.pyo
+*.sqlite3
