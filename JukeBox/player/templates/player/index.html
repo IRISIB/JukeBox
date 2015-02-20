@@ -1,0 +1,29 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IRISIB JukeBox Player</title>
+    Welcome to the IRISIB Juke Box Player
+  </head>
+  
+  <body>
+
+
+    <FORM>
+        Selection d'une playliste :
+      <SELECT id="plop" name="nom" size="1">
+        {% for pl in playlists %}
+          <OPTION>{{pl.name}}
+        {% endfor %}
+      </SELECT>
+        <input type="submit" value="Play" name="play" />
+    </FORM>
+
+  </body>
+</html>
+
+<!-- spotify:user:spotify:playlist:5ILSWr90l2Bgk89xuhsysy
+spotify:user:spotify:playlist:5ILSWr90l2Bgk89xuhsysy
+http://open.spotify.com/user/spotify/playlist/5ILSWr90l2Bgk89xuhsysy
+http://open.spotify.com/user/jukeboxdev --
