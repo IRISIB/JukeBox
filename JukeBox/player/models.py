@@ -18,16 +18,41 @@ def import_playlists():
 	    	# Playlist.objects.filter(name='name', title='title').exists()
 	    	pl = Playlist()
 	    	pl.name = playlist['name']
+	    	pl.uri = playlist['uri']
 	    	pl.SpotifyId = playlist['id']
+	    	pl.username = _get_username(pl.uri)
 	    	pl.save()
 	else:
 	    print "Can't get token for", username
 
 
+def improt_tracks():
+	playlists = Playlist.objects.all()
+	for pl in playlists:
+		sp.user_playlist_tracks(pl.username, pl.SpotifyId)
+
+	for item in track_list['items']:
+		tr = Track()
+		tr.name = item['track']['name']
+		tr.Spotify = item['track']['id']
+
+
+def _get_username(playlist_uri):
+	'''
+	get username from a playlist uri
+	uri example : 
+		spotify:user:sonymusicswitzerland:playlist:7nK3LDsCkobcZ3xeDEVOQL 
+	'''
+	fields = playlist_uri.split(':')
+	return fields[2]
+
+
 # Create your models here.
 class Playlist(models.Model):
-	name = models.CharField(max_length=50)
+	name = models.CharField(max_length=100)
 	SpotifyId = models.CharField(max_length=100, primary_key=True)
+	uri = models.CharField(max_length=100, default='')
+	username = models.CharField(max_length=50, default='')
 
 	def __str__(self):              # __unicode__ on Python 2
 		return self.name
