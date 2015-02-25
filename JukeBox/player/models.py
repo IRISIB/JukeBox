@@ -22,19 +22,26 @@ def import_playlists():
 	    	pl.SpotifyId = playlist['id']
 	    	pl.username = _get_username(pl.uri)
 	    	pl.save()
+
 	else:
 	    print "Can't get token for", username
 
 
-def improt_tracks():
-	playlists = Playlist.objects.all()
-	for pl in playlists:
-		sp.user_playlist_tracks(pl.username, pl.SpotifyId)
+def import_tracks():
+	username = 'jukeboxdev'
+	token = util.prompt_for_user_token(username)
 
-	for item in track_list['items']:
-		tr = Track()
-		tr.name = item['track']['name']
-		tr.Spotify = item['track']['id']
+	if token:
+	    sp = spotipy.Spotify(auth=token)
+	    playlists = Playlist.objects.all()
+	    for pl in playlists:
+			track_list = sp.user_playlist_tracks(pl.username, pl.SpotifyId)
+
+			for item in track_list['items']:
+				tr = Track()
+				tr.name = item['track']['name']
+				tr.SpotifyId = item['track']['id']
+				tr.save()
 
 
 def _get_username(playlist_uri):
@@ -59,15 +66,15 @@ class Playlist(models.Model):
 
 
 class Track(models.Model):
+	SpotifyId = models.CharField(max_length=100, primary_key=True)
 	name = models.CharField(max_length=100)
-	SpotifyId = models.CharField(max_length=100, unique=True)
 
 	def __str__(self):              # __unicode__ on Python 2
 		return self.name
 
 class Artist(models.Model):
 	name = models.CharField(max_length=100)
-	SpotifyId = models.CharField(max_length=100, unique=True)
+	SpotifyId = models.CharField(max_length=100, primary_key=True)
 
 	def __str__(self):              # __unicode__ on Python 2
 		return self.name
