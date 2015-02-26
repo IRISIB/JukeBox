@@ -4,4 +4,5 @@ from player import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
+    url(r'^playing/', views.playlist, name='play'),
 )

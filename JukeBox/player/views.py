@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
 # Create your views here.
 from django.http import HttpResponse
 from player.models import import_playlists, import_tracks
-from player.models import Playlist
+from player.models import Playlist, PlaylistEntry
 
 def index(request):
 	import_playlists()
@@ -12,4 +12,7 @@ def index(request):
 	return render(request, 'player/index.html', {'playlists' : playlists})
 
 def playlist(request):
-    return HttpResponse("Hello, world. You're at the player index.")
+	playlist = get_object_or_404(Playlist, pk=request.POST['choice'])
+	track_list = PlaylistEntry.objects.all().filter(PlaylistId=request.POST['choice'])
+	context = {'playlist' : playlist, 'track_list'  : track_list}
+	return render(request, 'player/playing.html', context)

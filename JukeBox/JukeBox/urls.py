@@ -8,6 +8,6 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^$', RedirectView.as_view(url='/player/')),
-    url(r'^player/', include('player.urls')),
+    url(r'^player/', include('player.urls', namespace="player")),
     url(r'^admin/', include(admin.site.urls)),    
 )

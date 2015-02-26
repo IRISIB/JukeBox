@@ -8,17 +8,16 @@
   </head>
   
   <body>
-
-
-    <FORM>
-        Selection d'une playliste :
-      <SELECT id="plop" name="nom" size="1">
+<form action="{% url 'player:play' %}" method="post">
+{% csrf_token %}
+  Selection d'une playliste :
+      <SELECT id="plop" name='choice' size="1">
         {% for pl in playlists %}
-          <OPTION>{{pl.name}}
+          <OPTION value="{{pl.SpotifyId}}">{{pl.name}}
         {% endfor %}
       </SELECT>
         <input type="submit" value="Play" name="play" />
-    </FORM>
+</form>
 
   </body>
 </html>

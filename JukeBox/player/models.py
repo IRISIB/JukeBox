@@ -43,6 +43,11 @@ def import_tracks():
 				tr.SpotifyId = item['track']['id']
 				tr.save()
 
+				entry = PlaylistEntry()
+				entry.PlaylistId = pl
+				entry.TrackId = tr
+				entry.save()
+
 
 def _get_username(playlist_uri):
 	'''
@@ -80,8 +85,7 @@ class Artist(models.Model):
 		return self.name
 
 class PlaylistEntry(models.Model):
-	PlaylistId = models.CharField(max_length=100)
-	TrackId = models.CharField(max_length=100)
-
-	def __str__(self):              # __unicode__ on Python 2
-		return self.name
+	# PlaylistId = models.CharField(max_length=100)
+	# TrackId = models.CharField(max_length=100)
+	PlaylistId = models.ForeignKey(Playlist)
+	TrackId = models.ForeignKey(Track)
