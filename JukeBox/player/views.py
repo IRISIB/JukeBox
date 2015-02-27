@@ -6,8 +6,8 @@ from player.models import import_playlists, import_tracks
 from player.models import Playlist, PlaylistEntry
 
 def index(request):
-	import_playlists()
-	import_tracks()
+	# import_playlists()
+	# import_tracks()
 	playlists = Playlist.objects.all()
 	return render(request, 'player/index.html', {'playlists' : playlists})
 
