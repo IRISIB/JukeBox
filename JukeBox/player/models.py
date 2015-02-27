@@ -48,6 +48,8 @@ def import_tracks():
 				entry.TrackId = tr
 				entry.save()
 
+	else:
+	    print "Can't get token for", username
 
 def _get_username(playlist_uri):
 	'''
