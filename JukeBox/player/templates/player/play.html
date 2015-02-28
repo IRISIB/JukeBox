@@ -5,28 +5,44 @@
   <head>
     <title>IRISIB JukeBox Player</title>
     Vous écoutez la playlist : {{ playlist.name }}
+	<base target="frame">
   </head>
   
   <body>
-<table>
-   <tr valign=top>
-<td>
+<br/><br/>
 {% if playlist.playlistentry_set.all %}
-<ul>
+<table>
+   <tr>
+		<th>Artist</th>
+       <th>Track</th>
+       <th>Play</th>
+   </tr>
 {% for playlistentry in playlist.playlistentry_set.all %}
+<tr valign=top>
+<td width=30%>
+<!-- <a href="{% url 'player:playtrack' playlistentry.PlaylistId.SpotifyId playlistentry.TrackId.SpotifyId %}" > -->
 	
-	<li><a href="{% url 'player:playtrack' playlistentry.PlaylistId.SpotifyId playlistentry.TrackId.SpotifyId %}" >
 	{% for joinartisttrack in playlistentry.TrackId.joinartisttrack_set.all %}
 	{{ joinartisttrack.ArtistId }}
 	{% if playlistentry.TrackId.joinartisttrack_set.all.count != 1  and forloop.counter != playlistentry.TrackId.joinartisttrack_set.all.count %}
 	&
 	{% endif %}
 	{% endfor %}
-	- {{ playlistentry.TrackId }}
-	</a></li>
+</td>
+<td width=30%>
+	{{ playlistentry.TrackId }}
+
+</td>
+<td width=10%>
+	<FORM METHOD="POST" ACTION="http://play.spotify.com/track/{{playlistentry.TrackId.SpotifyId}}" target=_blank>
+	<input type="submit" value="Play" name="play" ></input>
+	</FORM>
 	
+</td>
+</tr>
+
 {% endfor %}
-</ul>
+</table>
 <br/><br/>
 
 <iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:{{ string }}" frameborder="0" allowtransparency="true"></iframe>
@@ -34,15 +50,13 @@
 {% else %}
     <p>La playliste est vide!</p>
 {% endif %}
-</td>
-<td>
+
+
 {% if string_trackId %}
 <iframe src="https://embed.spotify.com/?uri=spotify:track:{{string_trackId}}" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
 
 {% endif %}
-</td>
-	</tr>
-</table>
+
   </body>
 </html>
 

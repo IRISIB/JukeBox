@@ -8,8 +8,10 @@
   </head>
   
   <body>
-
-
+<table>
+   <tr valign=top>
+<td width=400>
+<br/>
     <FORM>
 	{% csrf_token %}
         Selection d'une playliste :
@@ -22,11 +24,16 @@
 		</input><br/>
 		<ul>
     {% for pl in playlists %}
-        <li><a href="{% url 'player:play' pl.SpotifyId %}" target=_blank>{{ pl.name }}</a></li>
+        <li><a href="{% url 'player:play' pl.SpotifyId %}" target="frame">{{ pl.name }}</a></li>
     {% endfor %}
     </ul>
     </FORM>
-
+</td>
+<td>
+<iframe name="frame" style="position: absolute; height: 90%; width: 60%" frameborder="1"></iframe>
+  </td>
+	</tr>
+</table>
   </body>
 </html>
 
