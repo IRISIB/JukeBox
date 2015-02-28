@@ -11,16 +11,22 @@
 
 
     <FORM>
+	{% csrf_token %}
         Selection d'une playliste :
-      <SELECT id="plop" name="nom" size="1">
+      <SELECT id="plop" name="nom" size="1" value="{{ playlists.spotifyid }}">
         {% for pl in playlists %}
           <OPTION>{{pl.name}}
         {% endfor %}
       </SELECT>
         <input type="submit" value="Play" name="play" >
-		</input>
+		</input><br/>
+		<ul>
+    {% for pl in playlists %}
+        <li><a href="{% url 'player:play' pl.SpotifyId %}" target=_blank>{{ pl.name }}</a></li>
+    {% endfor %}
+    </ul>
     </FORM>
-<iframe src="https://embed.spotify.com/?uri=spotify:track:3aoDEt6zSuYQ47gzarlaVo" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+
   </body>
 </html>
 
