@@ -28,3 +28,5 @@ source ve/bin/activate
 ## Contact information
 
 Contact : dev.jukebox@gmail.com
+
+Author : Harun Ali  
