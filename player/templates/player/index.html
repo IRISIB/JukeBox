@@ -8,6 +8,7 @@
   </head>
   
   <body>
+<<<<<<< HEAD:JukeBox/player/templates/player/index.html
 <table>
    <tr valign=top>
 <td width=400>
@@ -16,10 +17,17 @@
 	{% csrf_token %}
         Selection d'une playliste :
       <SELECT id="plop" name="nom" size="1" value="{{ playlists.spotifyid }}">
+=======
+<form action="{% url 'player:play' %}" method="post">
+{% csrf_token %}
+  Selection d'une playliste :
+      <SELECT id="plop" name='choice' size="1">
+>>>>>>> master:player/templates/player/index.html
         {% for pl in playlists %}
-          <OPTION>{{pl.name}}
+          <OPTION value="{{pl.SpotifyId}}">{{pl.name}}
         {% endfor %}
       </SELECT>
+<<<<<<< HEAD:JukeBox/player/templates/player/index.html
         <input type="submit" value="Play" name="play" >
 		</input><br/>
 		<ul>
@@ -34,6 +42,11 @@
   </td>
 	</tr>
 </table>
+=======
+        <input type="submit" value="Play" name="play" />
+</form>
+
+>>>>>>> master:player/templates/player/index.html
   </body>
 </html>
 

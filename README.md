@@ -2,8 +2,6 @@
 
 ##Installation on a linux device
 
-sudo apt-get update
-
 One shot install :
 
 ```shell
@@ -12,13 +10,15 @@ cd JukeBox
 virtualenv --distribute --no-site-packages ve
 source ve/bin/activate
 pip install -r requirements.txt
+cd JukeBox
 chmod +x ./manage.py
 ```
 
 Run :
 
 ```shell
-source ve/bin/activate # Do only once (if it's a new tty)
+source ve/bin/activate 
+./manage.py migrate
 ./manage.py runserver
 ```
 
