@@ -1,0 +1,66 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IRISIB JukeBox Player</title>
+    Vous écoutez la playlist : {{ playlist.name }}
+	<base target="frame">
+  </head>
+  
+  <body>
+<br/><br/>
+{% if playlist.playlistentry_set.all %}
+<table>
+   <tr>
+		<th>Artist</th>
+       <th>Track</th>
+       <th>Play</th>
+   </tr>
+{% for playlistentry in playlist.playlistentry_set.all %}
+<tr valign=top>
+<td width=30%>
+<!-- <a href="{% url 'player:playtrack' playlistentry.PlaylistId.SpotifyId playlistentry.TrackId.SpotifyId %}" > -->
+	
+	{% for joinartisttrack in playlistentry.TrackId.joinartisttrack_set.all %}
+	{{ joinartisttrack.ArtistId }}
+	{% if playlistentry.TrackId.joinartisttrack_set.all.count != 1  and forloop.counter != playlistentry.TrackId.joinartisttrack_set.all.count %}
+	&
+	{% endif %}
+	{% endfor %}
+</td>
+<td width=30%>
+	{{ playlistentry.TrackId }}
+
+</td>
+<td width=10%>
+	<FORM METHOD="POST" ACTION="http://play.spotify.com/track/{{playlistentry.TrackId.SpotifyId}}" target=_blank>
+	<input type="submit" value="Play" name="play" ></input>
+	</FORM>
+	
+</td>
+</tr>
+
+{% endfor %}
+</table>
+<br/><br/>
+
+<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:{{ string }}" frameborder="0" allowtransparency="true"></iframe>
+
+{% else %}
+    <p>La playliste est vide!</p>
+{% endif %}
+
+
+{% if string_trackId %}
+<iframe src="https://embed.spotify.com/?uri=spotify:track:{{string_trackId}}" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+
+{% endif %}
+
+  </body>
+</html>
+
+<!-- spotify:user:spotify:playlist:5ILSWr90l2Bgk89xuhsysy
+spotify:user:spotify:playlist:5ILSWr90l2Bgk89xuhsysy
+http://open.spotify.com/user/spotify/playlist/5ILSWr90l2Bgk89xuhsysy
+http://open.spotify.com/user/jukeboxdev --

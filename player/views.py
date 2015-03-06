@@ -2,7 +2,6 @@ from django.shortcuts import get_object_or_404, render
 
 # Create your views here.
 from django.http import HttpResponse
-from player.models import import_playlists, import_tracks
 from player.models import Playlist, PlaylistEntry
 
 def index(request):
