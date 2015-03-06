@@ -26,3 +26,5 @@ source ve/bin/activate # Do only once (if it's a new tty)
 ## Contact information
 
 Contact : dev.jukebox@gmail.com
+
+Author : Harun Ali  
