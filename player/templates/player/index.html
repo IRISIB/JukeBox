@@ -10,7 +10,7 @@
   </head>
   
   <body>
-<form action="{% url 'player:page' %}" method="post">
+<form action="{% url 'player:page' %}" method="get">
 {% csrf_token %}
   Selection d'une playliste :
       <SELECT id="plop" name='choice' size="1">
