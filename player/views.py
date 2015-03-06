@@ -16,3 +16,9 @@ def playlist(request):
 	track_list = PlaylistEntry.objects.all().filter(PlaylistId=request.POST['choice'])
 	context = {'playlist' : playlist, 'track_list'  : track_list}
 	return render(request, 'player/playing.html', context)
+
+def page(request):
+	playlist = get_object_or_404(Playlist, pk=request.POST['choice'])
+	# track_list = PlaylistEntry.objects.all().filter(PlaylistId=request.POST['choice'])
+	context = {'playlist' : playlist, 'track_list'  : track_list}
+	return render(request, 'player/playing.html', context)
