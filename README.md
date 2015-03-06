@@ -2,8 +2,6 @@
 
 ##Installation on a linux device
 
-sudo apt-get update
-
 One shot install :
 
 ```shell
@@ -28,5 +26,3 @@ source ve/bin/activate
 ## Contact information
 
 Contact : dev.jukebox@gmail.com
-
-Author : Harun Ali  
