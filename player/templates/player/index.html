@@ -70,7 +70,7 @@
         <h3>
 <form action="{% url 'player:play' %}" method="post">
 {% csrf_token %}
-  Selection d'une playliste :
+  Selection d'une playlist :
         <br>
       <SELECT class="selectpicker" id="plop" name='choice' >
         {% for pl in playlists %}
