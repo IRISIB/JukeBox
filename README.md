@@ -22,6 +22,8 @@ source ve/bin/activate
 ./manage.py runserver
 ```
 
+## Demo
+https://jukebox-demo.herokuapp.com/
 
 ## Contact information
 
