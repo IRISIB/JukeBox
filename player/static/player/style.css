@@ -1,0 +1,38 @@
+body {
+  background-color:#bbb;
+  color:#048;      
+  font-size: 12px;
+  line-height: 16px;
+}
+a { 
+  color: #028; 
+}
+footer { 
+  text-align:center; 
+}
+nav {
+  background-color:#bcd;
+  border-radius: 8px;
+  padding: 0 !important;
+  border: 1px solid #ddd;
+}
+section { 
+  padding-right: 0 !important; 
+}
+.panel {
+  background-color: #bcd;
+  border-radius: 8px;
+  padding-bottom: 5px;
+}
+h1 {
+  text-shadow: 4px 4px 5px #777;
+  color: #449;
+}
+.nav > li > a:hover, .nav > li > a:focus {
+  background-color: #cde; 
+}
+.panel-default > .panel-heading, .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+  color: #048;
+  background-color: #abc;
+  border-radius: 8px;
+}
