@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="{% static 'player/assets/ico/favicon.png' %}">
+    <link rel="shortcut icon" href="{% static 'player/assets/ico/cd_music.png' %}">
 
     <title>IRISIB JukeBox Player</title>
 
@@ -72,13 +72,13 @@
 {% csrf_token %}
   Selection d'une playlist :
         <br>
-      <SELECT class="selectpicker" id="plop" name='choice' >
+<select class="form-control" id="plop" name='choice' >
         {% for pl in playlists %}
           <OPTION value="{{pl.SpotifyId}}">{{pl.name}}
         {% endfor %}
-      </SELECT>
+</select>
 <!--         <input type="submit" value="Play" name="play" ></input><br/> --> 
-        <br>
+        <br>  
         <button class="btn btn-default btn-lg"><span class="glyphicon glyphicon-play"></span> PLAY</button>
 </form></h3>
 
