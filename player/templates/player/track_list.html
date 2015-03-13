@@ -1,0 +1,13 @@
+{% block trackList%}
+
+	(L'id de la playlist est : {{ playlist.SpotifyId }})
+	<form>
+	<ul>
+	Liste des morceaux :
+	        {% for tr in track_list %}
+	          <li>{{tr.TrackId}} - ({{tr.TrackId.SpotifyId}})</li>
+	        {% endfor %}
+	</ul>
+	</form>
+
+{% endblock %}

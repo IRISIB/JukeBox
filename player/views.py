@@ -10,15 +10,13 @@ def index(request):
 	playlists = Playlist.objects.all()
 	return render(request, 'player/index.html', {'playlists' : playlists})
 
-def playlist(request):
+def select(request):
+	playlists = Playlist.objects.all()
+	return render(request, 'player/index.html', {'playlists' : playlists})
+
+def playing(request):
 	playlist = get_object_or_404(Playlist, pk=request.POST['choice'])
 	track_list = PlaylistEntry.objects.all().filter(PlaylistId=request.POST['choice'])
-	context = {'playlist' : playlist, 'track_list'  : track_list}
+	player_type = 'playlist'
+	context = {'playlist' : playlist, 'track_list'  : track_list, 'type' : player_type }
 	return render(request, 'player/playing.html', context)
-
-def page(request):
-	# playlist = get_object_or_404(Playlist, pk=request.POST['choice'])
-	# track_list = PlaylistEntry.objects.all().filter(PlaylistId=request.POST['choice'])
-	playlist = ''
-	context = {'playlist' : playlist}
-	return render(request, 'player/page.html', context)
