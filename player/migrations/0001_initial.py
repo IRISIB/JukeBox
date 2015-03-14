@@ -11,31 +11,53 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Choice',
+            name='Artist',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('choice_text', models.CharField(max_length=200)),
-                ('votes', models.IntegerField(default=0)),
+                ('name', models.CharField(max_length=100)),
+                ('SpotifyId', models.CharField(max_length=100, serialize=False, primary_key=True)),
             ],
             options={
             },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='Question',
+            name='Playlist',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('question_text', models.CharField(max_length=200)),
-                ('pub_date', models.DateTimeField(verbose_name=b'date published')),
+                ('name', models.CharField(max_length=100)),
+                ('SpotifyId', models.CharField(max_length=100)),
+                ('uri', models.CharField(default=b'', max_length=100)),
+                ('username', models.CharField(default=b'', max_length=50)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='PlaylistEntry',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('PlaylistId', models.ForeignKey(to='player.Playlist')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Track',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('SpotifyId', models.CharField(max_length=100)),
+                ('name', models.CharField(max_length=100)),
             ],
             options={
             },
             bases=(models.Model,),
         ),
         migrations.AddField(
-            model_name='choice',
-            name='question',
-            field=models.ForeignKey(to='player.Question'),
+            model_name='playlistentry',
+            name='TrackId',
+            field=models.ForeignKey(to='player.Track'),
             preserve_default=True,
         ),
     ]
