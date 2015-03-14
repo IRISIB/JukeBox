@@ -22,7 +22,7 @@ source ve/bin/activate
 ./manage.py runserver
 ```
 ## Demo
-https://blooming-peak-2463.herokuapp.com/
+https://jukebox-demo.herokuapp.com/
 
 ## Contact information
 
