@@ -16,7 +16,7 @@ def import_playlists(userid = 674215921):
             pl = Playlist()
             pl.title = playlist['title']
             pl.DeezerId = playlist['id']
-            # pl.description = playlist['description']
+            pl.descriptionduration = playlist['duration']
             pl.link = playlist['link']
             pl.picture = playlist['picture']
 
@@ -57,6 +57,13 @@ class Playlist(models.Model):
     description = models.CharField(max_length=100)
     link = models.CharField(max_length=100)
     picture = models.CharField(max_length=100)
+    duration = models.IntegerField(null=True)
+
+    def getMinutes(self):
+        if self.duration:
+            return "%d:%02d" % (self.duration / 60, self.duration % 60)
+        else:
+            return 'unknown'
 
     def __str__(self):              # __unicode__ on Python 2
         return self.title
@@ -78,16 +85,20 @@ class Track(models.Model):
     duration = models.IntegerField()
     ArtistId = models.ForeignKey(Artist)
 
+    def getMinutes(self):
+        if self.duration:
+            return "%d:%02d" % (self.duration / 60, self.duration % 60)
+        else:
+            return 'unknown'
+
     def __str__(self):              # __unicode__ on Python 2
         return self.title
 
 
 class PlaylistEntry(models.Model):
-    # PlaylistId = models.CharField(max_length=100)
-    # TrackId = models.CharField(max_length=100)
     PlaylistId = models.ForeignKey(Playlist)
     TrackId = models.ForeignKey(Track)
 
     def __str__(self):              # __unicode__ on Python 2
-        string = self.PlaylistId.title + ' - ' + str(self.id)
+        string = self.PlaylistId.title + ' - ' + str(elf.TrackId.title)
         return string
