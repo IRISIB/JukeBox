@@ -4,35 +4,90 @@ import sys
 import os
 import subprocess
 
+import requests
+import json
+
+def import_playlists(userid = 674215921):
+    user_playlists=json.loads(requests.get("https://api.deezer.com/user/" + str(userid) + "/playlists").text)['data']
+    for playlist in user_playlists:
+        json_result=requests.get("https://api.deezer.com/playlist/" + str(playlist['id']))
+        playlist_tracks=json.loads(json_result.text)['tracks']['data']
+        if not Playlist.objects.filter(DeezerId= int(playlist['id'])).exists():
+            pl = Playlist()
+            pl.title = playlist['title']
+            pl.DeezerId = playlist['id']
+            # pl.description = playlist['description']
+            pl.link = playlist['link']
+            pl.picture = playlist['picture']
+
+            pl.save()
+
+        for track in playlist_tracks:
+            if not Artist.objects.filter(DeezerId= int(track['artist']['id'])).exists():
+                art = Artist()
+                art.name = track['artist']['name']
+                art.DeezerId = track['artist']['id']
+                art.link = track['artist']['link']
+                # art.picture = track['artist']['picture']
+                art.save()
+
+            if not Track.objects.filter(DeezerId= int(track['id'])).exists():
+                tr = Track()
+                tr.title = track['title']
+                tr.DeezerId = track['id']
+                tr.link = track['link']
+                tr.duration = track['duration']
+                tr.ArtistId = Artist.objects.filter(DeezerId=int(track['artist']['id'])).first()
+                tr.save()
+
+            tr_id = Track.objects.filter(DeezerId=int(track['id'])).first()
+            pl_id = Playlist.objects.filter(DeezerId=int(playlist['id'])).first()
+
+            if not PlaylistEntry.objects.filter(TrackId=tr_id, PlaylistId=pl_id).exists():
+                pl_ent = PlaylistEntry()
+                pl_ent.TrackId = tr_id
+                pl_ent.PlaylistId = pl_id
+
+                pl_ent.save()
+
 # Create your models here.
 class Playlist(models.Model):
-    # id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    SpotifyId = models.CharField(max_length=100)
-    uri = models.CharField(max_length=100, default='')
-    username = models.CharField(max_length=50, default='')
+    title = models.CharField(max_length=100)
+    DeezerId = models.IntegerField(unique=True)
+    description = models.CharField(max_length=100)
+    link = models.CharField(max_length=100)
+    picture = models.CharField(max_length=100)
 
     def __str__(self):              # __unicode__ on Python 2
-        return self.name
+        return self.title
 
-
-class Track(models.Model):
-    # id = models.AutoField(primary_key=True)
-    SpotifyId = models.CharField(max_length=100)
-    name = models.CharField(max_length=100)
-
-    def __str__(self):              # __unicode__ on Python 2
-        return self.name
 
 class Artist(models.Model):
     name = models.CharField(max_length=100)
-    SpotifyId = models.CharField(max_length=100, primary_key=True)
+    DeezerId = models.IntegerField(unique=True)
+    link = models.CharField(max_length=100)
+    picture = models.CharField(max_length=100)
 
     def __str__(self):              # __unicode__ on Python 2
         return self.name
+
+class Track(models.Model):
+    title = models.CharField(max_length=100)
+    DeezerId = models.IntegerField(unique=True)
+    link = models.CharField(max_length=100)
+    duration = models.IntegerField()
+    ArtistId = models.ForeignKey(Artist)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.title
+
 
 class PlaylistEntry(models.Model):
     # PlaylistId = models.CharField(max_length=100)
     # TrackId = models.CharField(max_length=100)
     PlaylistId = models.ForeignKey(Playlist)
     TrackId = models.ForeignKey(Track)
+
+    def __str__(self):              # __unicode__ on Python 2
+        string = self.PlaylistId.title + ' - ' + str(self.id)
+        return string
