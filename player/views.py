@@ -5,8 +5,11 @@ from django.http import HttpResponse
 from player.models import Playlist, PlaylistEntry, import_playlists
 
 def index(request):
+	playlists = Playlist.objects.all()
+	return render(request, 'player/index.html', {'playlists' : playlists})
+
+def update(request):
 	import_playlists()
-	# import_tracks()
 	playlists = Playlist.objects.all()
 	return render(request, 'player/index.html', {'playlists' : playlists})
 
