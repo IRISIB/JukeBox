@@ -1,30 +1,10 @@
-{% load staticfiles %}
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html>
-  <head>
-    {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'player/style.css' %}" />
-    <title>IRISIB JukeBox Player</title>
-    Welcome to the IRISIB Juke Box Player
-  </head>
-  
-  <body>
+{% block index%}
+	
+	{% block select%}
+        <!-- {% include "player/select.html" %} -->
+	{% endblock %}
 
-<form action="{% url 'player:play' %}" method="post">
-  {% csrf_token %}
-  Selection d'une playliste :
-      <SELECT id="plop" name='choice' size="1">
-        {% for pl in playlists %}
-          <OPTION value="{{pl.SpotifyId}}">{{pl.name}}
-        {% endfor %}
-      </SELECT>
-        <input type="submit" value="Play" name="play" ></input><br/>
-</form>
-  </body>
-</html>
-
-<!-- spotify:user:spotify:playlist:5ILSWr90l2Bgk89xuhsysy
-spotify:user:spotify:playlist:5ILSWr90l2Bgk89xuhsysy
-http://open.spotify.com/user/spotify/playlist/5ILSWr90l2Bgk89xuhsysy
-http://open.spotify.com/user/jukeboxdev --
+    <!-- /.container -->
+{% endblock %}

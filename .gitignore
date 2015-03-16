@@ -3,3 +3,5 @@ ve/
 *.pyo
 *.sqlite3
 *.DS_Store
+*.cache*
+*migrations/

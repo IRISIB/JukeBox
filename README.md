@@ -21,7 +21,6 @@ source ve/bin/activate
 ./manage.py migrate
 ./manage.py runserver
 ```
-
 ## Demo
 https://jukebox-demo.herokuapp.com/
 

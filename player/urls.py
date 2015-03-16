@@ -7,5 +7,7 @@ urlpatterns = patterns('',
 	# url(r'^(?P<playlist_spotifyid>\w+)/(?P<track_spotifyid>\w+)/$', views.playtrack, name='playtrack'),
 	# url(r'^(?P<pk>\w+)/$', views.PlayView.as_view(), name='play'),
     url(r'^$', views.index, name='index'),
-    url(r'^playing/', views.playlist, name='play'),
+    url(r'^selection/', views.select, name='select'),
+    url(r'^update/', views.update, name='update'),
+    url(r'^playing/', views.playing, name='play'),
 )
