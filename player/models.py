@@ -91,6 +91,10 @@ class Track(models.Model):
         else:
             return 'unknown'
 
+    def getuSec(self):
+        return "%d " % (self.duration * 1000)
+
+
     def __str__(self):              # __unicode__ on Python 2
         return self.title
 
@@ -100,5 +104,5 @@ class PlaylistEntry(models.Model):
     TrackId = models.ForeignKey(Track)
 
     def __str__(self):              # __unicode__ on Python 2
-        string = self.PlaylistId.title + ' - ' + str(elf.TrackId.title)
+        string = self.PlaylistId.title + ' - ' + str(self.TrackId.title)
         return string

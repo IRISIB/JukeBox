@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^selection/', views.select, name='select'),
     url(r'^update/', views.update, name='update'),
     url(r'^playing/', views.playing, name='play'),
+    url(r'^next/', views.track_playing, name='tr_play'),
 )

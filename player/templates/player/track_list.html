@@ -17,7 +17,11 @@
 		    </thead>
 	    	<tbody>
 		        {% for tr in track_list %}
-	             <tr>
+		        	{% if tr.TrackId == current_track%}
+		        <tr class="success">
+		        		{% else %}
+	            <tr>
+		       		{% endif %}
 			       <td> {{tr.TrackId.title}} </td>
 			       <td> {{tr.TrackId.ArtistId.name}} </td>
 			       <td> {{tr.TrackId.getMinutes}} </td>

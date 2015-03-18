@@ -19,7 +19,11 @@
 
                 <div class="intro-text text-center">
                 {% block data %}
-                {% include "player/player.html" %}
+                    {% if track_player %}
+                        {% include "player/track_player.html" %}
+                    {% else %}
+                        {% include "player/player.html" %}
+                    {% endif %}
                 {% endblock %}
                 </div>
 

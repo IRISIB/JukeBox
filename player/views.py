@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 
 # Create your views here.
 from django.http import HttpResponse
-from player.models import Playlist, PlaylistEntry, import_playlists
+from player.models import Playlist, PlaylistEntry, import_playlists, Track
 
 def index(request):
 	playlists = Playlist.objects.all()
@@ -18,8 +18,53 @@ def select(request):
 	return render(request, 'player/index.html', {'playlists' : playlists})
 
 def playing(request):
+	'''
+	Premiere connexion au lecteur
+	'''
 	playlist = get_object_or_404(Playlist, DeezerId=int(request.POST['choice']))
 	track_list = PlaylistEntry.objects.all().filter(PlaylistId=playlist.id)
-	player_type = 'playlist'
-	context = {'playlist' : playlist, 'track_list'  : track_list, 'type' : player_type }
+	
+	track_player = True
+	player_type = 'tracks'
+
+	request.session['playlist_id'] = playlist.DeezerId
+	request.session['indice'] = 0
+
+	current_track = get_object_or_404(Track, DeezerId=track_list[0].TrackId.DeezerId)
+	request.session['current_track_id'] = current_track.DeezerId
+
+	context = {	'playlist' : playlist, 
+				'track_list'  : track_list, 
+				'type' : player_type , 
+				'track_player' : track_player,
+				'current_track' : current_track}
+	
+	return render(request, 'player/playing.html', context)
+
+def track_playing(request):
+	'''
+	Automatic track playing
+	'''
+	playlist_id = request.session.get('playlist_id')
+	playlist = get_object_or_404(Playlist, DeezerId=int(playlist_id))
+
+	track_list = PlaylistEntry.objects.all().filter(PlaylistId=playlist.id)
+	
+	current_track = get_object_or_404(Track, DeezerId=track_list[request.session.get('indice') + 1].TrackId.DeezerId)
+	request.session['indice'] = request.session.get('indice') + 1
+	request.session['current_track_id'] = current_track.DeezerId
+	# current_track = get_object_or_404(Track, DeezerId=request.session.get('current_track_id'))
+
+	# current_track = get_object_or_404(Track, DeezerId=request.session.get('current_track_id'))
+	# current_track = Track.objects.all().filter(DeezerId=request.session.get('current_track_id'))
+
+	track_player = True
+	player_type = 'tracks'
+
+	context = {	'playlist' : playlist, 
+				'track_list'  : track_list, 
+				'type' : player_type , 
+				'track_player' : track_player,
+				'current_track' : current_track}
+	
 	return render(request, 'player/playing.html', context)
