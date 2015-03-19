@@ -10,7 +10,12 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from os import path
+from re import sub
+PROJECT_PATH = sub('/Jukebox$', '', path.abspath(path.split(__file__)[0]))
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+# TEMPLATE_DIRS = os.path.join(BASE_DIR, "templates")
+TEMPLATE_DIRS = ('%s/templates' % PROJECT_PATH,)
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,6 +42,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'player',
+    'voting',
+    'manager',
 )
 
 MIDDLEWARE_CLASSES = (

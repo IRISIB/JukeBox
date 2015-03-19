@@ -9,5 +9,7 @@ urlpatterns = patterns('',
 
     url(r'^$', RedirectView.as_view(url='/player/')),
     url(r'^player/', include('player.urls', namespace="player")),
+    url(r'^manager/', include('manager.urls', namespace="manager")),
+    url(r'^voting/', include('voting.urls', namespace="voting")),
     url(r'^admin/', include(admin.site.urls)),    
 )
