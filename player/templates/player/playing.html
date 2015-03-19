@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 <!-- {% load staticfiles %} -->
-{% block playing%}
+{% block content%}
 
     <div class="container">
 
@@ -18,17 +18,15 @@
                 </div>
 
                 <div class="intro-text text-center">
-                {% block data %}
                 {% include "player/player.html" %}
-                {% endblock %}
                 </div>
 
-                {% block trackList %}
                 {% include "player/track_list.html" %}
-                {% endblock %}
                
             </div>
         </div>
+    </div>
+    </div>
     </div>
     <!-- /.container -->
 {% endblock %}
