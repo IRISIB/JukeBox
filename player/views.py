@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 
 # Create your views here.
 from django.http import HttpResponse
-from player.models import Playlist, PlaylistEntry, import_playlists
+from manager.models import Playlist, PlaylistEntry, import_playlists
 
 def index(request):
 	playlists = Playlist.objects.all()
