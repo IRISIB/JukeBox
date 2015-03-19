@@ -2,20 +2,19 @@
 
 {% block data %}
 
+{{current_track.title}} - {{ current_track.ArtistId.name}} - {{current_track.getMinutes}}
+<br	><a class="btn btn-default" href="{% url 'player:tr_play' %}" role="button">NEXT</a>
+
 	<br>		
-	<iframe scrolling="no" frameborder="0" allowTransparency="true" src="https://www.deezer.com/plugins/player?autoplay=true&playlist=false&width=700&height=240&cover=true&type={{ type }}&id={{current_track.DeezerId}}&title=&app_id=undefined" width="700" height="240" ></iframe> 
+	<iframe style="visibility:hidden"scrolling="no" frameborder="0" allowTransparency="true" src="https://www.deezer.com/plugins/player?autoplay=true&playlist=false&width=700&height=240&cover=true&type={{ type }}&id={{current_track.DeezerId}}&title=&app_id=undefined" width="700" height="2" ></iframe> 
 	<br>		
 
-{{current_track.getuSec}}
-
-<script>
-    function redirect(){
-       window.location.href = "{% url 'player:tr_play' %}";
-    }
-    // setTimeout(redirect, {{ current_track.getuSec }}); //2000 is equivalent to 2 seconds
-    setTimeout(redirect, 10000); //2000 is equivalent to 2 seconds
-</script>
-
-
+	<script>
+	    function redirect(){
+	       window.location.href = "{% url 'player:tr_play' %}";
+	    }
+	    setTimeout(redirect, {{ current_track.getuSec }}); //2000 is equivalent to 2 seconds
+	    // setTimeout(redirect, 10000); //2000 is equivalent to 2 seconds
+	</script>
 
 {% endblock %}

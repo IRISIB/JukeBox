@@ -12,6 +12,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="{% static 'player/stat/img/ico.png' %}">
 
+    <script type="text/javascript" src="{% static 'player/jquery.js' %}"></script>
     <title>Jukebox</title>
 
     <!-- Bootstrap Core CSS -->
@@ -59,6 +60,9 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
+
+                {% block menu%}{% endblock %}
+
                     <li><a href="/">Home</a></li>
                     <li><a href="/player/selection/">Selection</a></li>
                     <li><a href="/player/update/">Update</a></li>
@@ -71,10 +75,8 @@
         <!-- /.container -->
     </nav>
 
-    {% block index%}{% endblock %}
-
-    {% block playing%}{% endblock %}
-
+            {% block content%}
+            {% endblock %}
 
     <footer>
         <div class="container">

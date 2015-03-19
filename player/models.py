@@ -87,7 +87,7 @@ class Track(models.Model):
 
     def getMinutes(self):
         if self.duration:
-            return "%d:%02d" % (self.duration / 60, self.duration % 60)
+            return "%3d:%02d" % (self.duration / 60, self.duration % 60)
         else:
             return 'unknown'
 

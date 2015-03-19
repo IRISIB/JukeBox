@@ -1,10 +1,60 @@
 {% extends 'base.html' %}
 
-{% block index%}
+{% block content%}
+
+    <div class="container">
+
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr class="visible-xs"> 
+
+                <div class="intro-text text-center">
+            
+                    <hr>
+                    <h2>Sélection d'une playlist</h2>
+                    <hr>
+
+                </div>
+
+                <div class="intro-text text-center">
 	
-	{% block select%}
-        <!-- {% include "player/select.html" %} -->
-	{% endblock %}
+ {% include "player/select.html" %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- /.container -->	
+
+
+
+    <div class="container">
+
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr class="visible-xs"> 
+
+                <div class="intro-text text-center">
+            
+                    <hr>
+                    <h2>Autre sélection d'une playlist</h2>
+                    <hr>
+
+                </div>
+
+                <div class="intro-text text-center">
+	
+{% include "player/select.html" %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 
     <!-- /.container -->
+
 {% endblock %}

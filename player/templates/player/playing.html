@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 <!-- {% load staticfiles %} -->
-{% block playing%}
+{% block content%}
 
     <div class="container">
 
@@ -19,11 +19,7 @@
 
                 <div class="intro-text text-center">
                 {% block data %}
-                    {% if track_player %}
                         {% include "player/track_player.html" %}
-                    {% else %}
-                        {% include "player/player.html" %}
-                    {% endif %}
                 {% endblock %}
                 </div>
 
