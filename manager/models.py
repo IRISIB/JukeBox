@@ -91,6 +91,10 @@ class Track(models.Model):
         else:
             return 'unknown'
 
+    def getuSec(self):
+        return "%d " % (self.duration * 1000)
+
+
     def __str__(self):              # __unicode__ on Python 2
         return self.title
 

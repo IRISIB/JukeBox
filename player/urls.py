@@ -11,5 +11,5 @@ urlpatterns = patterns('',
     url(r'^update/', views.update, name='update'),
     url(r'^playing/', views.playing, name='play'),
     url(r'^next/', views.track_playing, name='tr_play'),
-    # (r'^test/$', views.test_ajax, name='test_ajax'),
+    url(r'^test/$', views.test_ajax, name='test'),
 )

@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, render
+import json
 
 # Create your views here.
 
@@ -71,19 +72,21 @@ def track_playing(request):
 	return render(request, 'player/playing.html', context)
 
 
-# def test_ajax(request):
-#     results = {'Duration': 'NONE'}
-#     if request.method == u'GET':
-#         GET = request.GET
-#         if GET.has_key(u'pk') and GET.has_key(u'time'):
-#             pk = int(GET[u'pk'])
-#             time = GET[u'time']
-#             tack = Track.objects.get(pk=pk)
-#             results
-#             if time == u"min":
-#                 duration = track.getMinutes()
-#             elif time == u"usec":
-#                 duration = track.getuSec()
-#             results = {'Duration': duration}
-#     json = simplejson.dumps(results)
-#     return HttpResponse(json, mimetype='application/json')
+def test_ajax(request):
+	print 'salut'
+	results = {'Duration': 'NONE'}
+	if request.method == u'GET':
+	    GET = request.GET
+	    if GET.has_key(u'pk') and GET.has_key(u'time'):
+	        pk = int(GET[u'pk'])
+	        time = GET[u'time']
+	    	print pk, time
+	        track = Track.objects.get(pk=pk)
+	        results
+	        if time == u"min":
+	            duration = track.getMinutes()
+	        elif time == u"usec":
+	            duration = track.getuSec()
+	        results = {'duration': duration}
+	myjson = json.dumps(results)
+	return HttpResponse(myjson, content_type='application/json')
