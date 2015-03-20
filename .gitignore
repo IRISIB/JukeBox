@@ -2,6 +2,7 @@ ve/
 *.pyc
 *.pyo
 *.sqlite3
+*.sqlite3-journal
 *.DS_Store
 *.cache*
 *migrations/

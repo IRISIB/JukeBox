@@ -10,16 +10,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="{% static 'player/stat/img/ico.png' %}">
+    <link rel="shortcut icon" href="{% static 'stat/img/ico.png' %}">
 
     <script type="text/javascript" src="{% static 'player/jquery.js' %}"></script>
     <title>Jukebox</title>
 
     <!-- Bootstrap Core CSS -->
     <!-- <link href="{% static 'player/bootstrap-3.3.2-dist/css/bootstrap.min.css' %}" rel="stylesheet"> -->
-    <link href="{% static 'player/stat/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'stat/css/bootstrap.min.css' %}" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="{% static 'player/stat/css/business-casual.css' %}" rel="stylesheet">
+    <link href="{% static 'stat/css/business-casual.css' %}" rel="stylesheet">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
@@ -60,14 +60,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-
-                {% block menu%}{% endblock %}
-
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/player/selection/">Selection</a></li>
-                    <li><a href="/player/update/">Update</a></li>
-                    <li><a href="/admin/">Admin</a></li>
-                    <li><a href="#contact">Contact</a></li>
+    {% block menu%}{% endblock %}
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -75,8 +68,8 @@
         <!-- /.container -->
     </nav>
 
-            {% block content%}
-            {% endblock %}
+
+    {% block content%}{% endblock %}
 
     <footer>
         <div class="container">
@@ -90,10 +83,10 @@
     </footer>
 
     <!-- jQuery -->
-    <script src="{% static 'player/stat/js/jquery.js' %}"></script>
+    <script src="{% static 'stat/js/jquery.js' %}"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="{% static 'player/stat/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'stat/js/bootstrap.min.js' %}"></script>
 
     <!-- Script to Activate the Carousel -->
     <script>
