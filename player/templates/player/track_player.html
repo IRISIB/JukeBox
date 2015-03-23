@@ -5,12 +5,13 @@
 {{current_track.title}} - {{ current_track.ArtistId.name}} - {{current_track.getMinutes}}
 <br	><a class="btn btn-default" href="{% url 'player:tr_play' %}" role="button">NEXT</a>
 
+
 	<br>		
 	<iframe style="visibility:hidden"scrolling="no" frameborder="0" allowTransparency="true" src="https://www.deezer.com/plugins/player?autoplay=true&playlist=false&width=700&height=240&cover=true&type={{ type }}&id={{current_track.DeezerId}}&title=&app_id=undefined" width="700" height="2" ></iframe> 
 	<br>		
 
 
-  <p> Do you <span id="getmin">minutes</span> or <span id="getusec">uSeconds</span>? </p>
+  <p> Do you want <span id="getmin">minutes</span> or <span id="getusec">uSeconds</span>? </p>
 
 	<script>
 	    function redirect(){
@@ -20,12 +21,14 @@
 	    // setTimeout(redirect, 10000); //2000 is equivalent to 2 seconds
 	</script>
 
+
 <script>
 function getTime(kind) {
   $.getJSON("{% url 'player:test' %}", { pk:{{ current_track.id }}, time: kind }, function(json){
-    alert("Track duration " + json['duration']);
+    alert(json['title'] + "\nDuration : " + json['duration']);
   });
 }
+
 function addClickHandlers() {
   $("#getmin").click( function() { getTime("min") });
   $("#getusec").click( function() { getTime("usec") });

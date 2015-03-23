@@ -87,6 +87,7 @@ def test_ajax(request):
 	            duration = track.getMinutes()
 	        elif time == u"usec":
 	            duration = track.getuSec()
-	        results = {'duration': duration}
+	        results = {'duration': duration,
+	        			'title' : track.title}
 	myjson = json.dumps(results)
 	return HttpResponse(myjson, content_type='application/json')
