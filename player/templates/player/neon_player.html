@@ -1,0 +1,68 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+
+<html>
+        <head>
+                <LINK href="style.css" rel="stylesheet" type="text/css">
+
+                <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+               <!-- <script src="http://cdn-files.deezer.com/js/min/dz.js"></script>-->
+
+
+        </head>
+        <body>
+
+                <div id="banner">
+                        <img src="../images/jukeboxlogo-1.png" width="500px"></img>
+                </div>
+
+                <br/>
+               <div id="wrapper">
+               </div>
+        </body>
+        <script>
+/*
+        function reloadWithNewSong(id){
+                                                                        $("iframe").prop("src","http://www.deezer.com/plugins/player?autoplay=true&playlist=true&width=700&height=240&cover=true&type=tracks&id="+id+"&title=" );
+                 //setInterval(function () {reloadWithNewSong(id)}, 241);
+        }*/
+        </script>
+        <script>
+        $.ajax({
+            type: "GET",
+            dataType: 'jsonp',
+            url: "https://api.deezer.com/playlist/1177315061?output=jsonp",
+            crossDomain : true,
+            success: function(data) {
+                    data;
+                    var div
+                    for(var i=0; i<data.tracks.data.length;i++){
+                        $( "body #wrapper" ).append($("<div>").prop("id","element")
+
+                            .append($("<div>").prop("id","title")
+                            .append($("<p>")
+                            .append(  data.tracks.data[i].title )))
+
+                            .append($("<div>").prop("id","artist")
+                            .append($("<p>")
+                            .append(  data.tracks.data[i].artist.name )))
+
+
+
+
+
+
+                             // John
+                           // .append($("<input>").prop("type", "submit").click({id: data.tracks.data[i].id},function(evt){ reloadWithNewSong(evt.data.id); setInterval(function () {reloadWithNewSong(evt.data.id)}, 241000); return false; }))
+
+                    );
+                    }
+                },
+            xhrFields: {
+                withCredentials: true
+            }
+        })
+                </script>
+ </html>
