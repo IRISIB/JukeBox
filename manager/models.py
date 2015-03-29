@@ -1,18 +1,16 @@
 from django.db import models
-import pprint
-import sys
-import os
-import subprocess
-
 import requests
 import json
 
-def import_playlists(userid = 674215921):
-    user_playlists=json.loads(requests.get("https://api.deezer.com/user/" + str(userid) + "/playlists").text)['data']
+
+def import_playlists(userid=674215921):
+    user_playlists = json.loads(requests.get(
+        "https://api.deezer.com/user/" + str(userid) + "/playlists").text)['data']
     for playlist in user_playlists:
-        json_result=requests.get("https://api.deezer.com/playlist/" + str(playlist['id']))
-        playlist_tracks=json.loads(json_result.text)['tracks']['data']
-        if not Playlist.objects.filter(DeezerId= int(playlist['id'])).exists():
+        json_result = requests.get(
+            "https://api.deezer.com/playlist/" + str(playlist['id']))
+        playlist_tracks = json.loads(json_result.text)['tracks']['data']
+        if not Playlist.objects.filter(DeezerId=int(playlist['id'])).exists():
             pl = Playlist()
             pl.title = playlist['title']
             pl.DeezerId = playlist['id']
@@ -23,7 +21,7 @@ def import_playlists(userid = 674215921):
             pl.save()
 
         for track in playlist_tracks:
-            if not Artist.objects.filter(DeezerId= int(track['artist']['id'])).exists():
+            if not Artist.objects.filter(DeezerId=int(track['artist']['id'])).exists():
                 art = Artist()
                 art.name = track['artist']['name']
                 art.DeezerId = track['artist']['id']
@@ -31,17 +29,19 @@ def import_playlists(userid = 674215921):
                 # art.picture = track['artist']['picture']
                 art.save()
 
-            if not Track.objects.filter(DeezerId= int(track['id'])).exists():
+            if not Track.objects.filter(DeezerId=int(track['id'])).exists():
                 tr = Track()
                 tr.title = track['title']
                 tr.DeezerId = track['id']
                 tr.link = track['link']
                 tr.duration = track['duration']
-                tr.ArtistId = Artist.objects.filter(DeezerId=int(track['artist']['id'])).first()
+                tr.ArtistId = Artist.objects.filter(
+                    DeezerId=int(track['artist']['id'])).first()
                 tr.save()
 
             tr_id = Track.objects.filter(DeezerId=int(track['id'])).first()
-            pl_id = Playlist.objects.filter(DeezerId=int(playlist['id'])).first()
+            pl_id = Playlist.objects.filter(
+                DeezerId=int(playlist['id'])).first()
 
             if not PlaylistEntry.objects.filter(TrackId=tr_id, PlaylistId=pl_id).exists():
                 pl_ent = PlaylistEntry()
@@ -50,7 +50,7 @@ def import_playlists(userid = 674215921):
 
                 pl_ent.save()
 
-# Create your models here.
+
 class Playlist(models.Model):
     title = models.CharField(max_length=100)
     DeezerId = models.IntegerField(unique=True)
@@ -68,6 +68,16 @@ class Playlist(models.Model):
     def __str__(self):              # __unicode__ on Python 2
         return self.title
 
+    def to_dict(self):
+        dico = {
+            "DeezerId": self.DeezerId,
+            "description": self.description,
+            "link": self.link,
+            "picture": self.picture,
+            "duration": self.duration
+        }
+        return dico
+
 
 class Artist(models.Model):
     name = models.CharField(max_length=100)
@@ -75,8 +85,18 @@ class Artist(models.Model):
     link = models.CharField(max_length=100)
     picture = models.CharField(max_length=100)
 
+    def to_dict(self):
+        dico = {
+            "name": self.name,
+            "DeezerId": self.DeezerId,
+            "link": self.link,
+            "picture": self.picture,
+        }
+        return dico
+
     def __str__(self):              # __unicode__ on Python 2
         return self.name
+
 
 class Track(models.Model):
     title = models.CharField(max_length=100)
@@ -84,6 +104,21 @@ class Track(models.Model):
     link = models.CharField(max_length=100)
     duration = models.IntegerField()
     ArtistId = models.ForeignKey(Artist)
+
+    def to_dict(self):
+        dico = {
+            "title": self.title,
+            "DeezerId": self.DeezerId,
+            "link": self.link,
+            "duration": self.duration,
+            "minutes": self.getMinutes(),
+            "Artist": None,
+        }
+
+        art = Artist.objects.get(id=self.ArtistId.id)
+
+        dico["Artist"] = art.to_dict()
+        return dico
 
     def getMinutes(self):
         if self.duration:
@@ -94,7 +129,6 @@ class Track(models.Model):
     def getuSec(self):
         return "%d " % (self.duration * 1000)
 
-
     def __str__(self):              # __unicode__ on Python 2
         return self.title
 
@@ -103,7 +137,10 @@ class PlaylistEntry(models.Model):
     PlaylistId = models.ForeignKey(Playlist)
     TrackId = models.ForeignKey(Track)
 
-    def __str__(self):              # __unicode__ on Python 2
-        string = self.PlaylistId.title + ' - ' + str(elf.TrackId.title)
-        return string
+    def to_dict(self):
+        dico = {}
+        return dico
 
+    def __str__(self):              # __unicode__ on Python 2
+        string = self.PlaylistId.title + ' - ' + str(self.TrackId.title)
+        return string
