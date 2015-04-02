@@ -76,6 +76,10 @@ class Playlist(models.Model):
         }
         return dico
 
+    def to_json(self):
+        dico = self.to_dict()
+        return json.dumps(dico)
+
     def __str__(self):              # __unicode__ on Python 2
         return self.title
 
