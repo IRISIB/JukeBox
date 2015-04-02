@@ -19,8 +19,8 @@
         $( "#DataTable" ).empty();
         $( "#inner" ).prepend($.parseJSON(data).title );
         for(var i = 0, l = $.parseJSON(data).Tracks.length; i < l; i++) {
-          $( "#DataTable" ).append( '<tr><td>' + $.parseJSON(data).Tracks[i].title +
-            '</td><td><input type="submit" value="+" id="'+i+'" onclick="vote('+i+');" ></input></td></tr>' );
+          $( "#DataTable" ).append( '<tr><td><input type="submit" value="+" id="'+i+'" onclick="vote('+i+');" ></input></td><td>' + $.parseJSON(data).Tracks[i].title +
+            '</td></tr>' );
         }
     });
 
