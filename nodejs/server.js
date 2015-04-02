@@ -21,20 +21,17 @@ nsp_manager.on('connection', function(socket){
   socket.on('playlistOn', function (message) {
   		playlist = message;
 		playlistOnline = true;
-        console.log('Manager says : ' + playlist);
+        console.log('Manager says : ' + JSON.parse(playlist).title);
 		nsp_player.emit('playlistOn', playlist);
 		nsp_voting.emit('playlistOn', playlist);
 		current_trackId = JSON.parse(playlist).Tracks[0].DeezerId;
 		nsp_player.emit('current_track', current_trackId);
-		var votes_null = [];
 		for(var index in JSON.parse(playlist).Tracks){
 			console.log(index+": "+ JSON.parse(playlist).Tracks[index].title);
-			votes_null.push(0);
+			votes.push(0);
 		}
-		votes = votes_null;
 		console.log(votes);
 		nsp_player.emit('votes', votes);
-		
 		setTimeout(reset, JSON.parse(playlist).Tracks[0].msec); 
 		
     }); 
@@ -56,14 +53,6 @@ function reset(){
       console.log(maxIndex + " : " + JSON.parse(playlist).Tracks[maxIndex].title 
       				+ " - msec : " + JSON.parse(playlist).Tracks[maxIndex].msec);
 	  current_trackId = JSON.parse(playlist).Tracks[maxIndex].DeezerId;
-	  /*
-      var votes_null = [];
-      for(var index in JSON.parse(playlist).Tracks){
-        votes_null.push(0);
-      }
-	  votes = votes_null;
-	  nsp_player.emit('votes', votes);
-	  */
 	  nsp_player.emit('current_track', current_trackId);
 	  setTimeout(reset, JSON.parse(playlist).Tracks[maxIndex].msec);
 	}
@@ -92,7 +81,6 @@ nsp_voting.on('connection', function(socket){
   socket.on('vote', function (message) {
         console.log('Voting says : ' + message);
 		votes[message]++;
-		console.log(votes);
 		nsp_player.emit('votes', votes);
     }); 
   
