@@ -23,3 +23,6 @@ def playing(request):
 	player_type = 'playlist'
 	context = {'playlist' : playlist, 'track_list'  : track_list, 'type' : player_type }
 	return render(request, 'player/playing.html', context)
+
+def nodejs_player(request):
+	return render(request, 'player/nodejs_player.html')

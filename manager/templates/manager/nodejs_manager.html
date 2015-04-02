@@ -5,11 +5,6 @@
       {% csrf_token %}
               <br>
               Mise en ligne de cette playlist : 
-      <!--         <input type="submit" value="Play" name="play" ></input><br/> --> 
-              
-              <button class="btn btn-default btn-lg" onclick="playOn();"><span class="glyphicon glyphicon-play"></span> ON </button>
-              <button class="btn btn-default btn-lg" onclick="playOff();"><span class="glyphicon glyphicon-play"></span> OFF </button>
-              <br>
               <input type="button" value="ON" id="managerOn" onclick="playOn();"></input>
               <input type="button" value="OFF" id="managerOff" onclick="playOff();"></input>
       </form>

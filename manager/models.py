@@ -67,6 +67,7 @@ class Playlist(models.Model):
 
     def to_dict(self):
         dico = {
+            "title": self.title,
             "DeezerId": self.DeezerId,
             "description": self.description,
             "link": self.link,

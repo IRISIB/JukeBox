@@ -19,25 +19,23 @@ nsp_manager.on('connection', function(socket){
   console.log('Manager connected');
   socket.emit('connected', 'Hi Manager!');
   socket.on('playlistOn', function (message) {
-        console.log('Manager says : ' + message);
-        /*
-		playlist = message;
+  		playlist = message;
 		playlistOnline = true;
+        console.log('Manager says : ' + playlist);
 		nsp_player.emit('playlistOn', playlist);
 		nsp_voting.emit('playlistOn', playlist);
-		console.log(JSON.parse(playlist).Tracks[0].SpotifyId);
-		current_trackId = JSON.parse(playlist).Tracks[0].SpotifyId;
+		current_trackId = JSON.parse(playlist).Tracks[0].DeezerId;
 		nsp_player.emit('current_track', current_trackId);
 		var votes_null = [];
 		for(var index in JSON.parse(playlist).Tracks){
-			console.log(index+": "+ JSON.parse(playlist).Tracks[index].name);
+			console.log(index+": "+ JSON.parse(playlist).Tracks[index].title);
 			votes_null.push(0);
 		}
 		votes = votes_null;
 		console.log(votes);
 		nsp_player.emit('votes', votes);
 		
-		setTimeout(reset, 20000); */
+		setTimeout(reset, JSON.parse(playlist).Tracks[0].msec); 
 		
     }); 
 	
@@ -55,16 +53,19 @@ nsp_manager.on('connection', function(socket){
 function reset(){ 
 	if(playlistOnline){
       var maxIndex = votes.indexOf(Math.max.apply(Math, votes));
-      console.log(maxIndex + " : " + JSON.parse(playlist).Tracks[maxIndex].name);
-	  current_trackId = JSON.parse(playlist).Tracks[maxIndex].SpotifyId;
+      console.log(maxIndex + " : " + JSON.parse(playlist).Tracks[maxIndex].title 
+      				+ " - msec : " + JSON.parse(playlist).Tracks[maxIndex].msec);
+	  current_trackId = JSON.parse(playlist).Tracks[maxIndex].DeezerId;
+	  /*
       var votes_null = [];
       for(var index in JSON.parse(playlist).Tracks){
         votes_null.push(0);
       }
 	  votes = votes_null;
 	  nsp_player.emit('votes', votes);
+	  */
 	  nsp_player.emit('current_track', current_trackId);
-	  setTimeout(reset, 20000);
+	  setTimeout(reset, JSON.parse(playlist).Tracks[maxIndex].msec);
 	}
 }
 
@@ -78,21 +79,6 @@ nsp_player.on('connection', function(socket){
 	socket.emit('current_track', current_trackId);
 	}
   else{socket.emit('playlistOff', playlist);}
-  
-  
-  //non nécessaire
-  socket.on('reset', function (message) {
-        console.log('Player says : ' + message);
-		votes = message;
-		console.log(votes);
-		nsp_player.emit('votes', votes);
-    }); 
-	//non nécessaire
-	socket.on('track', function (message) {
-        console.log('Player says : ' + message);
-		current_trackId = message;
-		nsp_player.emit('current_track', current_trackId);
-    }); 
   
 });
 
@@ -112,19 +98,10 @@ nsp_voting.on('connection', function(socket){
   
 });
 
-
+//namespace par défaut
 io.sockets.on('connection', function (socket) {
-	
-	//clients.push(socket.id);
-	//console.log('New user connected');
-	
 	socket.on('disconnect', function(){
     console.log('user disconnected');
 	});
-    // Dès qu'on reçoit un "message" (clic sur le bouton), on le note dans la console
-    socket.on('message', function (message) {
-        // On récupère le pseudo de celui qui a cliqué dans les variables de session
-        console.log('Le Client me parle ! Il me dit : ' + message);
-    }); 
 });
 

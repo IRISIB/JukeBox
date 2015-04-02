@@ -5,3 +5,6 @@ from django.http import HttpResponse
 def index(request):
 	# playlists = Playlist.objects.all()
 	return render(request, 'voting/index.html')
+
+def nodejs_voting(request):
+	return render(request, 'voting/nodejs_voting.html')
