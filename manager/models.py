@@ -71,7 +71,7 @@ class Playlist(models.Model):
             "description": self.description,
             "link": self.link,
             "picture": self.picture,
-            "duration": self.duration
+            "duration": self.duration,
             "Tracks": [ a.TrackId.to_dict() for a in self.playlistentry_set.all() ]
         }
         return dico
