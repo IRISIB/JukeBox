@@ -30,7 +30,6 @@ nsp_manager.on('connection', function(socket){
 			console.log(index+": "+ JSON.parse(playlist).Tracks[index].title);
 			votes.push(0);
 		}
-		console.log(votes);
 		nsp_player.emit('votes', votes);
 		setTimeout(reset, JSON.parse(playlist).Tracks[0].msec); 
 		
