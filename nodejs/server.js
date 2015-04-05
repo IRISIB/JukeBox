@@ -11,7 +11,7 @@ var io = require('socket.io').listen(httpServer);
 
 var playlist = "Aucune playlist n'a été mise en ligne"; 
 var playlistOnline = false;
-var votes = [];
+var votes;
 var current_trackId;
 var limit;
 
@@ -30,6 +30,7 @@ nsp_manager.on('connection', function(socket){
 		nsp_voting.emit('playlistOn', playlist);
 		current_trackId = JSON.parse(playlist).Tracks[0].DeezerId;
 		nsp_player.emit('current_track', current_trackId);
+		votes = [];
 		for(var index in JSON.parse(playlist).Tracks){
 			console.log(index+": "+ JSON.parse(playlist).Tracks[index].title);
 			votes.push(0);
