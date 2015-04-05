@@ -21,9 +21,11 @@ nsp_manager.on('connection', function(socket){
   socket.emit('connected', 'Hi Manager!');
   socket.on('playlistOn', function (message) {
   		limit = 5;
-  	if (JSON.parse(message).Tracks.length > limit){
-  		playlist = limitedPlaylist(message, limit);
-  	} else { playlist = message ; }
+  	//if (JSON.parse(message).Tracks.length > limit){
+  	//	playlist = limitedPlaylist(message, limit);
+  	//} else { 
+  		playlist = message ; 
+  	//}
 		playlistOnline = true;
         console.log('Manager says : ' + JSON.parse(playlist).title);
 		nsp_player.emit('playlistOn', playlist);
