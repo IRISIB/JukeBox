@@ -11,7 +11,11 @@
                 <div class="intro-text text-center">
             
                     <hr>
-                    <h2>Sélection d'une playlist</h2>
+                    <h2>Connexion</h2>
+                    
+                    {% load account %}
+                    {% user_display user %}
+                    <a href="/voting/register">Inscription</a>
                     <hr>
 
                 </div>
