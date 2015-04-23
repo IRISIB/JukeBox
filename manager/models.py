@@ -154,7 +154,7 @@ class PlaylistEntry(models.Model):
 
 
 class PlaylistSession(models.Model):
-    Session = JSONField()
+    Session = JSONField(blank=True, null=True)
 
     def __str__(self):              # __unicode__ on Python 2
         # string = self.PlaylistId.title + ' - ' + str(elf.TrackId.title)
