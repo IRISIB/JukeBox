@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.serializers.json import DjangoJSONEncoder 
+import json
 
 class JSONField(models.TextField):
 
@@ -35,4 +37,4 @@ class JSONField(models.TextField):
             return None
         if isinstance(value, dict):
             value = json.dumps(value, cls=DjangoJSONEncoder)
-        return super(JSONField, self).get_db_prep_save(value, *args, **kwargs)  
+        return super(JSONField, self).get_db_prep_save(value, *args, **kwargs)
