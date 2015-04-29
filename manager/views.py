@@ -39,8 +39,6 @@ def createSession(request):
 
 	    jsData = json.dumps(data, sort_keys=True, indent=4)
 
-	    if request.GET['callback']:
-	        jspData = request.GET['callback']+'(' + jsData + ');'
 
 	    new_session = PlaylistSession()
 
@@ -49,5 +47,8 @@ def createSession(request):
 
 	new_session.Session = jspData
     new_session.save()
+
+    if request.GET['callback']:
+        jspData = request.GET['callback']+'(' + jsData + ');'
 
     return HttpResponse(jspData, content_type='application/json') 
