@@ -1,5 +1,5 @@
 <!-- {% load staticfiles %} -->
-      <form action="{% url 'player:play' %}" method="post">
+      <form action="{% url 'manager:newSession' %}" method="post">
       {% csrf_token %}
               <br>
               <select class="form-control" id="plop" name='choice' >

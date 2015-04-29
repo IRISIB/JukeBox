@@ -4,6 +4,7 @@ from django.db import models
 # import os
 # import subprocess
 
+import unicodedata
 import requests
 import json
 
@@ -158,7 +159,7 @@ class PlaylistSession(models.Model):
 
     def __str__(self):              # __unicode__ on Python 2
         # string = self.PlaylistId.title + ' - ' + str(elf.TrackId.title)
-        return "salut"
+        return str(self.id)
 
 
 def remove_accents(input_str):
