@@ -48,6 +48,10 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
+# allauth options
+LOGIN_REDIRECT_URL = '/voting'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # Application definition
 
 INSTALLED_APPS = (
@@ -65,7 +69,6 @@ INSTALLED_APPS = (
     'voting',
     'manager',
     'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.twitter',
 
 )
