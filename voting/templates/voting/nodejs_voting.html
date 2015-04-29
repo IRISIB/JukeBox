@@ -1,0 +1,50 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>NodeJS Voting</title>
+    
+	<base target="frame">
+
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="http://localhost:8888/socket.io/socket.io.js"></script>
+<script>
+    socket = io.connect('http://localhost:8888/voting');
+    socket.on('connected', function (data) {
+        alert(data);
+    });
+    socket.on('playlistOn', function (data) {
+        $( "#inner" ).empty();
+        $( "#DataTable" ).empty();
+        $( "#inner" ).prepend($.parseJSON(data).title );
+        for(var i = 0, l = $.parseJSON(data).Tracks.length; i < l; i++) {
+          $( "#DataTable" ).append( '<tr><td><input type="submit" value="+" id="'+i+'" onclick="vote('+i+');" ></input></td><td>' + $.parseJSON(data).Tracks[i].title +
+            '</td></tr>' );
+        }
+    });
+
+    function vote(i){ socket.emit('vote', i ); }
+
+    socket.on('playlistOff', function (data) {
+        $( "#inner" ).empty();
+        $( "#DataTable" ).empty();
+        $( "#inner" ).prepend(data);
+    });
+
+</script>
+
+  </head>
+  
+  <body>
+    <p id="inner"></p>
+
+
+
+<table id="DataTable" border="1">
+  </table>
+
+
+
+  </body>
+</html>

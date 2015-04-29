@@ -1,0 +1,58 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>NodeJS Player</title>
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="http://localhost:8888/socket.io/socket.io.js"></script>
+<script>
+    socket = io.connect('http://localhost:8888/player');
+    socket.on('connected', function (data) {
+        alert(data);
+    });
+
+    var playlistJson;
+    socket.on('playlistOn', function (data) {
+        $( "#inner" ).empty();
+        $( "#DataTable" ).empty();
+        playlistJson = $.parseJSON(data);
+        $( "#inner" ).prepend(playlistJson.title );
+
+        for(var i = 0, l = playlistJson.Tracks.length; i < l; i++) {
+          $( "#DataTable" ).append( '<tr><td>' + playlistJson.Tracks[i].title + '</td><td id="'+i+'"></td></tr>' );
+        }
+    });
+
+    socket.on('playlistOff', function (data) {
+        $( "#inner" ).empty();
+        $( "#inner" ).prepend(data);
+        $( "#DataTable" ).empty();
+        $( "#play" ).empty();
+    });
+
+    socket.on('current_track', function (data) {
+      $( "#play" ).empty();
+      $( "#play" ).append('<iframe scrolling="no" frameborder="0" allowTransparency="true" src="http://www.deezer.com/plugins/player?autoplay=true&playlist=false&width=700&height=80&cover=true&type=tracks&id='+data+'&title=&app_id=undefined" width="700" height="80"></iframe>');
+    });
+
+    socket.on('votes', function (data) {
+      //alert(data);
+        var table = document.getElementById('DataTable')
+        for(var i = 0, l = data.length; i < l; i++) {
+          table.rows[i].cells[1].innerHTML = data[i];
+        }
+    });
+
+</script>
+
+  </head>
+  
+  <body>
+    <p id="inner"></p>
+    <p id="play"></p>
+
+    <table id="DataTable" border="1">
+    </table>
+  </body>
+</html>

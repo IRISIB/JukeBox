@@ -1,0 +1,16 @@
+<!-- {% load staticfiles %} -->
+
+   
+      <form action="{% url 'manager:play' %}" method="post">
+      {% csrf_token %}
+              <br>
+              <select class="form-control" id="plop" name='choice' >
+              {% for pl in playlists %}
+                <OPTION value="{{pl.DeezerId}}">{{pl.title}}
+              {% endfor %}
+      </select>
+      <!--         <input type="submit" value="Play" name="play" ></input><br/> --> 
+              <br>  
+              <button class="btn btn-default btn-lg"><span class="glyphicon glyphicon-play"></span> GO !</button>
+      </form>
+    <!-- /.container -->

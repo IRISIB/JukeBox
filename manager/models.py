@@ -65,6 +65,22 @@ class Playlist(models.Model):
         else:
             return 'unknown'
 
+    def to_dict(self):
+        dico = {
+            "title": self.title,
+            "DeezerId": self.DeezerId,
+            "description": self.description,
+            "link": self.link,
+            "picture": self.picture,
+            "duration": self.duration,
+            "Tracks": [ a.TrackId.to_dict() for a in self.playlistentry_set.all() ]
+        }
+        return dico
+
+    def to_json(self):
+        dico = self.to_dict()
+        return json.dumps(dico)
+
     def __str__(self):              # __unicode__ on Python 2
         return self.title
 
@@ -74,6 +90,15 @@ class Artist(models.Model):
     DeezerId = models.IntegerField(unique=True)
     link = models.CharField(max_length=100)
     picture = models.CharField(max_length=100)
+
+    def to_dict(self):
+        dico = {
+            "name": self.name,
+            "DeezerId": self.DeezerId,
+            "link": self.link,
+            "picture": self.picture,
+        }
+        return dico
 
     def __str__(self):              # __unicode__ on Python 2
         return self.name
@@ -85,11 +110,30 @@ class Track(models.Model):
     duration = models.IntegerField()
     ArtistId = models.ForeignKey(Artist)
 
+    def to_dict(self):
+        dico = {
+            "title": self.title,
+            "DeezerId": self.DeezerId,
+            "link": self.link,
+            "duration": self.duration,
+            "minutes": self.getMinutes(),
+            "msec": self.getmSec(),
+            "Artist": None,
+        }
+
+        art = Artist.objects.get(id=self.ArtistId.id)
+
+        dico["Artist"] = art.to_dict()
+        return dico
+
     def getMinutes(self):
         if self.duration:
             return "%d:%02d" % (self.duration / 60, self.duration % 60)
         else:
             return 'unknown'
+
+    def getmSec(self):
+        return "%d " % (self.duration * 1000)
 
     def __str__(self):              # __unicode__ on Python 2
         return self.title

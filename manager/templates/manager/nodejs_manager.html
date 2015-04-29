@@ -1,0 +1,27 @@
+<!-- {% load staticfiles %} -->
+
+   
+      <form>
+      {% csrf_token %}
+              <br>
+              Mise en ligne de cette playlist : 
+              <input type="button" value="ON" id="managerOn" onclick="playOn();"></input>
+              <input type="button" value="OFF" id="managerOff" onclick="playOff();"></input>
+      </form>
+<script src="http://localhost:8888/socket.io/socket.io.js"></script>
+<script>
+    socket = io.connect('http://localhost:8888/manager');
+    socket.on('connected', function (data) {
+        alert(data);
+
+    });
+    
+    function playOn(){
+      socket.emit('playlistOn', "{{ playlist.to_json }}".replace(/&quot;/g,"\"") );
+    }
+    function playOff(){
+      socket.emit('playlistOff', "Aucune playlist en ligne" );
+    }
+
+</script>
+    <!-- /.container -->

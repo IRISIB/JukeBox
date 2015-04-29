@@ -21,6 +21,22 @@ source ve/bin/activate
 ./manage.py migrate
 ./manage.py runserver
 ```
+
+##Installation of NodeJS on a linux device
+
+```shell
+sudo apt-get install python-software-properties python g++ make
+sudo add-apt-repository ppa:chris-lea/node.js
+sudo apt-get update
+sudo apt-get install nodejs
+```
+
+Run on a Node.js shell:
+
+```shell
+JukeBox\nodejs>node server.js
+```
+
 ## Demo
 https://jukebox-demo.herokuapp.com/
 
