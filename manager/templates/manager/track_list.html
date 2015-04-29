@@ -1,0 +1,42 @@
+
+	(L'id de la playlist est : {{ playlist.DeezerId }})
+
+	 <!-- <br><img src="{{ playlist.picture }}"><br> -->
+
+	<form>
+	Liste des morceaux :
+
+	 <div class="table-responsive">
+	  <table class="table table-striped table-bordered table-hover table-condensed ">
+	    	<thead>
+		        <tr>
+		            <th> Title</th>
+		            <th> Artist</th>
+		            <th> Duration</th>
+		        </tr>
+		    </thead>
+	    	<tbody>
+		        {% for tr in track_list %}
+		        	{% if tr.TrackId == current_track%}
+		        <tr class="success">
+		        		{% else %}
+	            <tr>
+		       		{% endif %}
+			       <td> {{tr.TrackId.title}} </td>
+			       <td> {{tr.TrackId.ArtistId.name}} </td>
+			       <td> {{tr.TrackId.getMinutes}} </td>
+			   </tr>
+		        {% endfor %}
+		    </tbody>
+	</div> 
+
+	</table>
+	</form>
+
+
+
+
+
+
+
+
