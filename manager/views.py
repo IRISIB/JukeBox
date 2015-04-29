@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 
-from models import Playlist, PlaylistEntry, import_playlists, PlaylistSession
+from models import Playlist, Track, PlaylistEntry, import_playlists, PlaylistSession
 
 import json
 
+from random import randrange
 # Create your views here.
 
 
@@ -68,4 +69,41 @@ def getSession(request):
 
     jspData = json.dumps(sess.Session, sort_keys=True, indent=4)
 
-    return HttpResponse(jspData, content_type='application/json') 
+    return HttpResponse(jspData, content_type='application/json')
+
+def nextTrack(request):
+    if 'session_id' in request.POST:
+        sess = get_object_or_404(PlaylistSession, id = request.POST['session_id'])
+
+    elif 'session_id' in request.GET:
+        sess = get_object_or_404(PlaylistSession, id = request.GET['session_id'])
+
+    else:
+        sess = PlaylistSession.objects.all()[0]
+
+    # >>> sorted(student_objects, key=lambda student: student.age)   # sort by age
+    # [('dave', 'B', 10), ('jane', 'B', 12), ('john', 'A', 15)]
+    track_list = sess.Session["tracks"]
+
+    maxVote = 0
+    # nextTrack = sess.Session["current_track"]["DeezerId"]
+    # nextTrack = track_list[0]["DeezerId"]
+    nextTrack = track_list[randrange(len(track_list))]["DeezerId"]
+
+    for track in track_list:
+        if track['vote'] > maxVote:
+            nextTrack = track["DeezerId"]
+
+    print nextTrack
+
+    current_track =  get_object_or_404(Track, DeezerId = nextTrack)
+    dcurrent_track = current_track.to_dict()
+
+    sess.Session["current_track"] = dcurrent_track
+
+    sess.save()
+
+    jspData = json.dumps(sess.Session, sort_keys=True, indent=4)
+
+    return HttpResponse(jspData, content_type='application/json')
+
