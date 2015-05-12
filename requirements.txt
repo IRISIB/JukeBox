@@ -1,3 +1,11 @@
-Django==1.7.4
-Spotipy
-django-allauth
+Django==1.7.7
+deezer-python==0.1
+django-admin-tools==0.5.2
+django-allauth==0.19.1
+django-debug-toolbar==1.2.2
+django-extensions==1.4.9
+django-json-field==0.5.7
+django-social-auth==0.7.28
+requests==2.2.1
+spotipy==2.3.0
+
