@@ -6,5 +6,10 @@ def index(request):
 	# playlists = Playlist.objects.all()
 	return render(request, 'voting/index.html')
 
+
 def nodejs_voting(request):
 	return render(request, 'voting/nodejs_voting.html')
+
+def register(request):
+	return HttpResponse("Vous allez vous logger")
+
