@@ -43,3 +43,16 @@ https://jukebox-demo.herokuapp.com/
 ## Contact information
 
 Contact : dev.jukebox@gmail.com
+
+
+
+Pour utiliser alauth sur le site, il faut suivre la marche à suivre suivante : 
+
+- faire une migration de la base de donnée pour la création des tables 
+- creer un super user pour pouvoir acceder à l'administration DJango 
+- une fois connecté, il faut aller dans la section "sites" et supprimer l'"exemple.com" et y ajouer à la place : 
+127.0.0.1:8000
+localhost:8000
+- Il faut ensuite ajouter les différentes applications sociales (une pour twitter et une pour facebook)
+- Les clés publiques et secretes sont récupérables sur l'api des sites en question une fois connecté avec le compte dev
+- tester si la page connexion de la section voting fonctionne. -> si erreur, il faut changer le site id dans settings.py

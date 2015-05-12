@@ -6,6 +6,7 @@ from manager.models import Playlist, PlaylistEntry, import_playlists
 #def index(request):
 #	return HttpResponse("Hello, world. You're at the manager page.")
 
+
 def index(request):
 	playlists = Playlist.objects.all()
 	return render(request, 'manager/index.html', {'playlists' : playlists})

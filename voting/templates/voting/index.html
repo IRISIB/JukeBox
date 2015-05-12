@@ -4,6 +4,35 @@
     {% include "voting/menu.html" %}
 {% endblock %}
 {% block content%}
+   
+     <base target="frame">
+
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="http://localhost:8888/socket.io/socket.io.js"></script>
+<script>
+socket = io.connect('http://localhost:8888/voting');
+    socket.on('connected', function (data) {
+        alert(data);
+    });
+    socket.on('playlistOn', function (data) {
+        $( "#inner" ).empty();
+        $( "#DataTable" ).empty();
+        $( "#inner" ).prepend($.parseJSON(data).title );
+        for(var i = 0, l = $.parseJSON(data).Tracks.length; i < l; i++) {
+          $( "#DataTable" ).append( '<tr><td><input type="submit" value="+" id="'+i+'" onclick="vote('+i+');" ></input></td><td>' + $.parseJSON(data).Tracks[i].title +
+            '</td></tr>' );
+        }
+    });
+
+    function vote(i){ socket.emit('vote', i ); }
+
+    socket.on('playlistOff', function (data) {
+        $( "#inner" ).empty();
+        $( "#DataTable" ).empty();
+        $( "#inner" ).prepend(data);
+    });
+
+</script>
 	 <div class="container">
 
         <div class="row">
@@ -18,8 +47,14 @@
                     
                     {% load account %}
                     {% user_display user %}
+                    {% if request.user.is_active and request.user.is_staff %}
+                    <meta http-equiv="refresh" content="0; URL=/manager">
+                    {% endif %}
                     <a href="/accounts/logout/">Déco</a>
                     <hr>
+                     <p id="inner"></p>
+                    <table id="DataTable" border="1">
+  </table>
 
                 </div>
 
