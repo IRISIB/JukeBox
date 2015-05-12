@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 <!-- pas de block menu -->
+{% block menu%}
+    {% include "voting/menu.html" %}
+{% endblock %}
 {% block content%}
 	 <div class="container">
 
@@ -11,7 +14,11 @@
                 <div class="intro-text text-center">
             
                     <hr>
-                    <h2>Sélection d'une playlist</h2>
+                    <h2>Voting</h2>
+                    
+                    {% load account %}
+                    {% user_display user %}
+                    <a href="/accounts/logout/">Déco</a>
                     <hr>
 
                 </div>
