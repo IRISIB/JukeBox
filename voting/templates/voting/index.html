@@ -10,6 +10,9 @@
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="http://localhost:8888/socket.io/socket.io.js"></script>
 <script>
+var titre;
+var nombre=0;
+var tab = new Array();
 socket = io.connect('http://localhost:8888/voting');
     socket.on('connected', function (data) {
         alert(data);
@@ -18,14 +21,59 @@ socket = io.connect('http://localhost:8888/voting');
         $( "#inner" ).empty();
         $( "#DataTable" ).empty();
         $( "#inner" ).prepend($.parseJSON(data).title );
-        for(var i = 0, l = $.parseJSON(data).Tracks.length; i < l; i++) {
-          $( "#DataTable" ).append( '<tr><td><input type="submit" value="+" id="'+i+'" onclick="vote('+i+');" ></input></td><td>' + $.parseJSON(data).Tracks[i].title +
+        titre = $.parseJSON(data).title ;
+        if(sessionStorage.length != 0)
+        {
+            
+            // alert("sessionStorage in da hood"+sessionStorage.getItem(0));
+            var tempTab = new Array();
+            for(var i =0; i<sessionStorage.length; i++)
+            {
+                alert(" passage idp"+ i);
+                if($.parseJSON(data).DeezerId=sessionStorage.key(i))
+                {
+                    for(var x=0; x<sessionStorage.getItem(sessionStorage.key(i)).length; x++)
+                    {
+                        for(var ii = 0, l = $.parseJSON(data).Tracks.length; ii < l; ii++) {
+
+                            if(sessionStorage.getItem(sessionStorage.key(i))[x]==ii)
+                            {
+                                 $( "#DataTable" ).append( '<tr><td><input type="submit" style="visibility: hidden;" value="+" id="'+ii+'" onclick="vote('+ii+','+$.parseJSON(data).DeezerId+');" ></input></td><td>' + $.parseJSON(data).Tracks[ii].title +
+                                '</td></tr>' );
+                            }
+                            else
+                            {
+                                 $( "#DataTable" ).append( '<tr><td><input type="submit" value="+" id="'+ii+'" onclick="vote('+ii+','+$.parseJSON(data).DeezerId+');" ></input></td><td>' + $.parseJSON(data).Tracks[ii].title +
+                                '</td></tr>' );
+                            }
+                            
+                        }
+                    }
+
+                }
+            }
+        }
+        else
+        {
+            for(var i = 0, l = $.parseJSON(data).Tracks.length; i < l; i++) 
+            {
+            $( "#DataTable" ).append( '<tr><td><input type="submit" value="+" id="'+i+'" onclick="vote('+i+','+$.parseJSON(data).DeezerId+');" ></input></td><td>' + $.parseJSON(data).Tracks[i].title +
             '</td></tr>' );
+            }
         }
     });
 
-    function vote(i){ socket.emit('vote', i ); }
-
+    function vote(i,pid)
+    {
+        tab[nombre]=i;
+        nombre++;
+        sessionStorage.setItem(pid,tab);
+       // alert("nombre: "+nombre+"valeur de la data : "+ sessionStorage.getItem(nombre));
+        socket.emit('vote', i );
+        document.getElementById(i).style.visibility = "hidden"; 
+        //alert(sessionStorage.getItem(titre));
+    }
+    
     socket.on('playlistOff', function (data) {
         $( "#inner" ).empty();
         $( "#DataTable" ).empty();
@@ -50,7 +98,6 @@ socket = io.connect('http://localhost:8888/voting');
                     {% if request.user.is_active and request.user.is_staff %}
                     <meta http-equiv="refresh" content="0; URL=/manager">
                     {% endif %}
-                    <a href="/accounts/logout/">Déco</a>
                     <hr>
                      <p id="inner"></p>
                     <table id="DataTable" border="1">

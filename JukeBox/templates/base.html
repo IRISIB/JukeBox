@@ -26,6 +26,16 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="{% static 'player/tablesorter/tsort.min.js' %}"></script>
+    <script type="text/javascript">
+    function deco()
+    {
+        if(sessionStorage.length != 0)
+        {
+            sessionStorage.clear();
+        }
+    }
+
+    </script>
     <link rel="stylesheet" href="{% static 'player/tablesorter/style.css' %}" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

@@ -18,7 +18,7 @@ var limit;
 var nsp_manager = io.of('/manager');
 nsp_manager.on('connection', function(socket){
   console.log('Manager connected');
-  socket.emit('connected', 'Hi Manager!');
+  //socket.emit('connected', 'Hi Manager!');
   socket.on('playlistOn', function (message) {
   		limit = 5;
   	//if (JSON.parse(message).Tracks.length > limit){
@@ -81,7 +81,7 @@ function reset(){
 var nsp_player = io.of('/player');
 nsp_player.on('connection', function(socket){
   console.log('Player connected');
-  socket.emit('connected', 'Hi Player!');
+  //socket.emit('connected', 'Hi Player!');
   if(playlistOnline){
 	socket.emit('playlistOn', playlist);
 	socket.emit('votes', votes);
@@ -94,7 +94,7 @@ nsp_player.on('connection', function(socket){
 var nsp_voting = io.of('/voting');
 nsp_voting.on('connection', function(socket){
   console.log('Voting connected');
-  socket.emit('connected', 'Hi Voting!');
+  //socket.emit('connected', 'Hi Voting!');
   if(playlistOnline){socket.emit('playlistOn', playlist);}
   else{socket.emit('playlistOff', playlist);}
   
