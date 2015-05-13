@@ -29,23 +29,26 @@ socket = io.connect('http://localhost:8888/voting');
             var tempTab = new Array();
             for(var i =0; i<sessionStorage.length; i++)
             {
-                alert(" passage idp"+ i);
+                alert(" sessionStorage "+ sessionStorage.key(i) );
                 if($.parseJSON(data).DeezerId=sessionStorage.key(i))
                 {
-                    for(var x=0; x<sessionStorage.getItem(sessionStorage.key(i)).length; x++)
+                    for(var ii = 0, l = $.parseJSON(data).Tracks.length; ii < l; ii++) 
                     {
-                        for(var ii = 0, l = $.parseJSON(data).Tracks.length; ii < l; ii++) {
 
-                            if(sessionStorage.getItem(sessionStorage.key(i))[x]==ii)
-                            {
-                                 $( "#DataTable" ).append( '<tr><td><input type="submit" style="visibility: hidden;" value="+" id="'+ii+'" onclick="vote('+ii+','+$.parseJSON(data).DeezerId+');" ></input></td><td>' + $.parseJSON(data).Tracks[ii].title +
-                                '</td></tr>' );
-                            }
-                            else
-                            {
-                                 $( "#DataTable" ).append( '<tr><td><input type="submit" value="+" id="'+ii+'" onclick="vote('+ii+','+$.parseJSON(data).DeezerId+');" ></input></td><td>' + $.parseJSON(data).Tracks[ii].title +
-                                '</td></tr>' );
-                            }
+                        for(var x=0; x<sessionStorage.getItem(sessionStorage.key(i)).length; x++)
+                        {
+                                if(sessionStorage.getItem(sessionStorage.key(i))[x]==ii)
+                                {
+                                    var samia = x;
+                                     $( "#DataTable" ).append( '<tr><td><input type="submit" style="visibility: hidden;" value="+" id="'+ii+'" onclick="vote('+ii+','+$.parseJSON(data).DeezerId+');" ></input></td><td>' + $.parseJSON(data).Tracks[ii].title +
+                                    '</td></tr>' );
+                                }
+                                else
+                                {
+                                     $( "#DataTable" ).append( '<tr><td><input type="submit" value="+" id="'+ii+'" onclick="vote('+ii+','+$.parseJSON(data).DeezerId+');" ></input></td><td>' + $.parseJSON(data).Tracks[ii].title +
+                                    '</td></tr>' );
+                                }
+                                
                             
                         }
                     }
@@ -68,7 +71,7 @@ socket = io.connect('http://localhost:8888/voting');
         tab[nombre]=i;
         nombre++;
         sessionStorage.setItem(pid,tab);
-       // alert("nombre: "+nombre+"valeur de la data : "+ sessionStorage.getItem(nombre));
+       alert("tab "+sessionStorage.getItem(pid));
         socket.emit('vote', i );
         document.getElementById(i).style.visibility = "hidden"; 
         //alert(sessionStorage.getItem(titre));
