@@ -33,19 +33,20 @@ body{
 
 #scroll{
     height: 6vh;
-    padding-top:52%;
-    padding-left:37%;
+    padding-top:37vh;
+    padding-left:15vw;
+    /*padding-right:2vw;*/
 }
 
 #album{
-    padding-top:8%;
-    padding-left:42%;
-    height: 11vh;
-    width: 11vh;
+    padding-left:16.7vw;
+    /*padding-top:37vh;*/
+    height: 12vh;
+    width: 12vh;
 }
 
 #timer{
-    padding-left:45%;  
+    padding-left:19vw;  
 }
 
 #album img
