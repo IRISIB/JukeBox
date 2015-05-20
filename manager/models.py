@@ -7,12 +7,15 @@ import subprocess
 import requests
 import json
 
-def import_playlists(userid = 674215921):
-    user_playlists=json.loads(requests.get("https://api.deezer.com/user/" + str(userid) + "/playlists").text)['data']
+
+def import_playlists(userid=674215921):
+    user_playlists = json.loads(requests.get(
+        "https://api.deezer.com/user/" + str(userid) + "/playlists").text)['data']
     for playlist in user_playlists:
-        json_result=requests.get("https://api.deezer.com/playlist/" + str(playlist['id']))
-        playlist_tracks=json.loads(json_result.text)['tracks']['data']
-        if not Playlist.objects.filter(DeezerId= int(playlist['id'])).exists():
+        json_result = requests.get(
+            "https://api.deezer.com/playlist/" + str(playlist['id']))
+        playlist_tracks = json.loads(json_result.text)['tracks']['data']
+        if not Playlist.objects.filter(DeezerId=int(playlist['id'])).exists():
             pl = Playlist()
             pl.title = playlist['title']
             pl.DeezerId = playlist['id']
@@ -23,7 +26,7 @@ def import_playlists(userid = 674215921):
             pl.save()
 
         for track in playlist_tracks:
-            if not Artist.objects.filter(DeezerId= int(track['artist']['id'])).exists():
+            if not Artist.objects.filter(DeezerId=int(track['artist']['id'])).exists():
                 art = Artist()
                 art.name = track['artist']['name']
                 art.DeezerId = track['artist']['id']
@@ -31,17 +34,19 @@ def import_playlists(userid = 674215921):
                 # art.picture = track['artist']['picture']
                 art.save()
 
-            if not Track.objects.filter(DeezerId= int(track['id'])).exists():
+            if not Track.objects.filter(DeezerId=int(track['id'])).exists():
                 tr = Track()
                 tr.title = track['title']
                 tr.DeezerId = track['id']
                 tr.link = track['link']
                 tr.duration = track['duration']
-                tr.ArtistId = Artist.objects.filter(DeezerId=int(track['artist']['id'])).first()
+                tr.ArtistId = Artist.objects.filter(
+                    DeezerId=int(track['artist']['id'])).first()
                 tr.save()
 
             tr_id = Track.objects.filter(DeezerId=int(track['id'])).first()
-            pl_id = Playlist.objects.filter(DeezerId=int(playlist['id'])).first()
+            pl_id = Playlist.objects.filter(
+                DeezerId=int(playlist['id'])).first()
 
             if not PlaylistEntry.objects.filter(TrackId=tr_id, PlaylistId=pl_id).exists():
                 pl_ent = PlaylistEntry()
@@ -51,6 +56,8 @@ def import_playlists(userid = 674215921):
                 pl_ent.save()
 
 # Create your models here.
+
+
 class Playlist(models.Model):
     title = models.CharField(max_length=100)
     DeezerId = models.IntegerField(unique=True)
@@ -73,7 +80,7 @@ class Playlist(models.Model):
             "link": self.link,
             "picture": self.picture,
             "duration": self.duration,
-            "Tracks": [ a.TrackId.to_dict() for a in self.playlistentry_set.all() ]
+            "Tracks": [a.TrackId.to_dict() for a in self.playlistentry_set.all()]
         }
         return dico
 
@@ -102,6 +109,7 @@ class Artist(models.Model):
 
     def __str__(self):              # __unicode__ on Python 2
         return self.name
+
 
 class Track(models.Model):
     title = models.CharField(max_length=100)
@@ -146,4 +154,3 @@ class PlaylistEntry(models.Model):
     def __str__(self):              # __unicode__ on Python 2
         string = self.PlaylistId.title + ' - ' + str(elf.TrackId.title)
         return string
-

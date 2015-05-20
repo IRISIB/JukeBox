@@ -72,7 +72,7 @@ function reset(){
       var maxIndex = votes.indexOf(Math.max.apply(Math, votes));
       console.log(maxIndex + " : " + JSON.parse(playlist).Tracks[maxIndex].title 
       				+ " - msec : " + JSON.parse(playlist).Tracks[maxIndex].msec);
-	  current_trackId = JSON.parse(playlist).Tracks[maxIndex].DeezerId;
+	  current_trackId = JSON.parse(playlist).Tracks[maxIndex];
 	  nsp_player.emit('current_track', current_trackId);
 	  setTimeout(reset, JSON.parse(playlist).Tracks[maxIndex].msec);
 	}
