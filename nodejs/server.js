@@ -30,8 +30,8 @@ nsp_manager.on('connection', function(socket){
         console.log('Manager says : ' + JSON.parse(playlist).title);
 		nsp_player.emit('playlistOn', playlist);
 		nsp_voting.emit('playlistOn', playlist);
-		current_trackId = JSON.parse(playlist).Tracks[0].DeezerId;
-		nsp_player.emit('current_track', current_trackId);
+		current_track = JSON.parse(playlist).Tracks[0];
+		nsp_player.emit('current_track', current_track);
 		votes = [];
 		for(var index in JSON.parse(playlist).Tracks){
 			console.log(index+": "+ JSON.parse(playlist).Tracks[index].title);
