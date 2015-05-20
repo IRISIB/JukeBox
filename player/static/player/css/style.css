@@ -1,0 +1,204 @@
+@font-face{
+    font-family: 'AtlanticCruisedemo';
+    src: local('AtlanticCruiseDemo'),
+         url('../fonts/AmericanCaptain.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+
+
+body{
+/*        font-family: 'AtlanticCruisedemo';*/
+/*        font-size:180%;*/
+/*        color: #292622;*/
+/*        background-position: top center, bottom center;*/
+        background-image: url("../img/background.jpg");
+        /*background-position: center center;*/
+        background-size: 100% ;
+        background-repeat: no-repeat;
+        background-color: #020606 ;
+     }
+
+#player{
+    /*background-image: url("../img/board.png");*/
+    background-size: 100% ;
+    background-repeat: no-repeat;
+    height: 90vh;
+    width: 40vw;
+    margin-left: 5%;
+    /*margin-right: 50%;*/
+    float: left;
+}
+
+#scroll{
+    height: 6vh;
+    padding-top:52%;
+    padding-left:37%;
+}
+
+#album{
+    padding-top:8%;
+    padding-left:42%;
+    height: 11vh;
+    width: 11vh;
+}
+
+#timer{
+    padding-left:45%;  
+}
+
+#album img
+{
+max-width:100%; 
+max-height:100%;
+margin:auto;
+display:block;
+}
+
+#blackboard{
+    background-image: url("../img/board.png");
+    background-size: 100% ;
+    background-repeat: no-repeat;
+    height: 90vh;
+    width: 40%;
+    /*margin-top:2%;*/
+    /*margin-left: 55%;*/
+    margin-right: 8%;
+    /*padding-top:50%;*/
+    float: right;
+}
+
+#playlist{
+    /*font: 400 100px/1.3 'Oleo Script', Helvetica, sans-serif;*/
+    font: 400 100px/1.2 'Merienda One', Helvetica, sans-serif;
+    color:  #F2F5A9;
+    font-size:1.5vw;
+    /*font-size:40%;*/
+    /*size: 40%;    */
+    width: 72%;
+    height: 80vh;
+    position: center;
+    /*margin-top:5%;*/
+    margin-left: 14%;
+    padding-top:15%;
+}
+
+#label{
+    background-image: url("../img/label.png");
+    background-size: 100% ;
+    background-repeat: no-repeat;
+    height: 10vh;
+    width: 50vh;
+}
+
+#title{
+        text-align: center;
+        margin-right: 15%;
+        padding-top: 2%;
+}
+
+#rank{
+    text-align: center;
+    /*margin-left: 10%;*/
+    margin-right: 5%;
+    /*margin-bottom: 10%;*/
+    float: right;
+    padding-top: 5%;
+    /*width: 26%;*/
+}
+
+#artist{
+    text-align: center;
+    padding-bottom: 2%;
+    width: 80%;
+    padding-top: 2%;
+
+
+}
+
+.light {
+  width: 5px;
+  height: 5px;
+  margin: 1px 1px;
+  text-align: center;
+  font-size: 15px;
+  float: left;
+  border-radius: 50%;
+}
+
+.off { background-color: #121212; }
+
+.on { background-color: green; }
+
+
+#min{
+      padding-top:8px;
+}
+
+#header {
+    color: #292622;
+    background-image:   url("../images/jukeboxlogo-1.gif"), url("../images/banner.png");
+    /*background-image:  url() , url("../images/banner.png");*/
+    background-position: center 70%, top center;
+    background-repeat: no-repeat, no-repeat ;
+    background-size: 30%, 85% ;
+    background-color: #020606 ;
+    padding: 28%;
+}
+#headsec {
+    color: #292622;
+    background-image: url("../images/head_section.png");
+    background-position: top center;
+    background-repeat: repeat-y;
+    background-size: 85% ;
+    background-color: #020606 ;
+}
+#section {
+    color: #292622;
+    background-image: url("../images/section.png");
+    background-position: top center;
+    background-repeat: repeat-y;
+    background-size: 85% ;
+    background-color: #020606 ;
+}
+
+#ticket{
+        /*display:inline-block;*/
+    background-repeat: no-repeat;
+    background-size: 30%, 50%;
+    background-color: #004C4C ;
+        width:100%;
+        height: 150px ;
+        margin-bottom:15px;
+        margin-left:auto;
+        margin-right:auto;
+/*        margin-top:15px;
+*/
+}
+
+/* */
+
+#bsection {
+    color: #292622;
+    background-image: url("../images/big_section.png");
+    background-position: top center;
+    background-repeat: repeat-y;
+    background-size: 85% ;
+    background-color: #020606 ;
+}
+#footer {
+    color: #292622;
+    background-image: url("../images/footer.png");
+    /*background-image: url("../images/disc.gif ");*/
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    background-size: 85% ;
+    background-color: #020606 ;
+    padding:20%;
+
+}
+
+#Container .mix{
+    /*display: none;*/
+}

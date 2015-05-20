@@ -1,34 +1,142 @@
-{% extends 'base.html' %}
-{% block menu%}
-    {% include "player/menu.html" %}
-{% endblock %}
-{% block content%}
-	 <div class="container">
-        {% if not request.user.is_staff %}
-            <meta http-equiv="refresh" content="0; URL=/accounts/login/">
-        {% endif %}
-        <div class="row">
-            <div class="box">
-                <div class="col-lg-12">
-                    <hr class="visible-xs"> 
+{% load staticfiles %}
+<!DOCTYPE html>
 
-                <div class="intro-text text-center">
-            
-                    <hr>
-                    <h2>Sélection d'une playlist</h2>
-                    <hr>
+<html>
+        <head>
+        <meta name = "viewport" content = "initial-scale = .25, minimum-scale = .25, maximum-scale= .25, width = device-width,  user-scalable=no">
+                <LINK href="{% static 'player/css/style.css' %}" rel="stylesheet" type="text/css">
+                <link href="http://fonts.googleapis.com/css?family=Oleo+Script" rel="stylesheet" type="text/css">
+                <link href="http://fonts.googleapis.com/css?family=Merienda+One" rel="stylesheet" type="text/css">
+                <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
 
+                <!-- <LINK href="css/style.css" rel="stylesheet" type="text/css"> -->
+        </head>
+        <body>
+
+        <div id="player">
+
+            <canvas id="scroll" class="canvasld"> Chanson en cours </canvas>
+            <div id="album">
+                <img src="https://api.deezer.com/album/302127/image?size=big">
+            </div>
+
+            <div id="timer">
+                <canvas id="display" width="20px" height="25px"></canvas>
+            </div>            
+
+        </div>
+
+        <div id="blackboard" >
+
+            <div id="playlist" class="sort" data-sort="random">
+
+                <div id="label" class="mix" data-myorder="1">
+                    <div id="rank">1</div>
+                    <div id="title">Titre de la chanson</div>
+                    <div id="artist">Artist</div>
                 </div>
-
-                <div class="intro-text text-center">
-
-        {% include "player/select.html" %}
-
-               
+                
+                <div id="label" class="mix" data-myorder="2">
+                    <div id="rank">2</div>
+                    <div id="title">Titre de la chanson</div>
+                    <div id="artist">Artist</div>
                 </div>
+                <div id="label" class="mix" data-myorder="3">
+                    <div id="rank">3</div>
+                    <div id="title">Titre de la chanson</div>
+                    <div id="artist">Artist</div>
+                </div>
+                <div id="label" class="mix" data-myorder="4">
+                    <div id="rank">4</div>
+                    <div id="title">Titre de la chanson</div>
+                    <div id="artist">Artist</div>
+                </div>
+                <div id="label" class="mix" data-myorder="5">
+                    <div id="rank">5</div>
+                    <div id="title">Titre de la chanson</div>
+                    <div id="artist">Artist</div>
+                </div>
+                <div id="label" class="mix" data-myorder="6">
+                    <div id="rank">6</div>
+                    <div id="title">Titre de la chanson</div>
+                    <div id="artist">Artist</div>
+                </div>
+                <div id="label" class="mix" data-myorder="7">
+                    <div id="rank">7</div>
+                    <div id="title">Titre de la chanson</div>
+                    <div id="artist">Artist</div>
+                </div>
+                
             </div>
         </div>
-    </div>
-    </div>
-    <!-- /.container -->
-{% endblock %}
+        </body>
+
+        <footer>
+                <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+                <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+                <script type="text/javascript" src="{% static 'player/js/jquery.leddisplay.js' %}"></script>
+                <script type="text/javascript" src="{% static 'player/js/jquery.leddisplay.js' %}"></script>
+                <script type="text/javascript" src="{% static 'player/js/design.js' %}"></script>
+                <script type="text/javascript" src="{% static 'player/js/segment-display.js' %}"></script>
+                <script type="text/javascript" src="{% static 'player/js/excanvas.js' %}"></script>
+                <script src="http://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
+
+<script type="text/javascript">
+    var options = {
+            pixelSize: 10, 
+            stepDelay: 100, 
+            horizontalPixelsCount:15,
+            verticalPixelsCount:5,
+            pixelRatio: 0.8
+        };
+        $('.canvasld, .crl').leddisplay($.extend(options, {pixelSize: 5}));
+    </script>
+    <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<script type="text/javascript">
+
+      var display = new SegmentDisplay("display");
+      display.pattern         = "##:##";
+      display.cornerType      = 1;
+      display.displayType     = 16;
+      display.displayAngle    = 13;
+      display.digitHeight     = 20;
+      display.digitWidth      = 12;
+      display.digitDistance   = 1;
+      display.segmentWidth    = 2;
+      display.segmentDistance = 0.3;
+      display.colorOn         = "rgba(36, 221, 34, 1)";
+      display.colorOff        = "rgba(27, 65, 5, 0.5)";
+
+      animate();
+
+      function animate() {
+        var time    = new Date();
+        var hours   = time.getHours();
+        var minutes = time.getMinutes();
+        var seconds = time.getSeconds();
+        var value   = ((minutes < 10) ? '0' : '') + minutes
+                    + ':' + ((seconds < 10) ? '0' : '') + seconds;
+        display.setValue(value);
+        window.setTimeout('animate()', 100);
+      }
+
+    </script>
+
+    <script src="{% static 'player/js/main.js' %}"></script>    
+
+
+
+        </footer>
