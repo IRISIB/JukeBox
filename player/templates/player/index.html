@@ -12,17 +12,17 @@
                 <!-- <LINK href="css/style.css" rel="stylesheet" type="text/css"> -->
         </head>
         <body>
-
         <div id="player">
 
-            <canvas id="scroll" class="canvasld"> Chanson en cours </canvas>
+            <canvas id="scroll" class="canvasld"></canvas>
+
+            <div id="timer">
+                <canvas id="display" width="15vw" height="25vw"></canvas>
+            </div>            
+
             <div id="album">
                 <img src="https://api.deezer.com/album/302127/image?size=big">
             </div>
-
-            <div id="timer">
-                <canvas id="display" width="20px" height="25px"></canvas>
-            </div>            
 
         </div>
 
@@ -30,7 +30,7 @@
 
             <div id="playlist" class="sort" data-sort="random">
 
-                <div id="label" class="mix" data-myorder="1">
+<!--                 <div id="label" class="mix" data-myorder="1">
                     <div id="rank">1</div>
                     <div id="title">Titre de la chanson</div>
                     <div id="artist">Artist</div>
@@ -65,45 +65,25 @@
                     <div id="rank">7</div>
                     <div id="title">Titre de la chanson</div>
                     <div id="artist">Artist</div>
-                </div>
+                </div> -->
                 
             </div>
+    <p id="inner"></p>
+    <p id="play"></p>
+    <table id="DataTable" border="1">
+    </table>
         </div>
         </body>
 
         <footer>
                 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
                 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-                <script type="text/javascript" src="{% static 'player/js/jquery.leddisplay.js' %}"></script>
-                <script type="text/javascript" src="{% static 'player/js/jquery.leddisplay.js' %}"></script>
                 <script type="text/javascript" src="{% static 'player/js/design.js' %}"></script>
                 <script type="text/javascript" src="{% static 'player/js/segment-display.js' %}"></script>
                 <script type="text/javascript" src="{% static 'player/js/excanvas.js' %}"></script>
                 <script src="http://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
 
-<script type="text/javascript">
-    var options = {
-            pixelSize: 10, 
-            stepDelay: 100, 
-            horizontalPixelsCount:15,
-            verticalPixelsCount:5,
-            pixelRatio: 0.8
-        };
-        $('.canvasld, .crl').leddisplay($.extend(options, {pixelSize: 5}));
-    </script>
-    <script type="text/javascript">
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-36251023-1']);
-  _gaq.push(['_setDomainName', 'jqueryscript.net']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
 
 <script type="text/javascript">
 
@@ -135,8 +115,109 @@
 
     </script>
 
-    <script src="{% static 'player/js/main.js' %}"></script>    
+    <script src="{% static 'player/js/main.js' %}"></script>   
 
+<script src="http://localhost:8888/socket.io/socket.io.js"></script>
+<script>
+    socket = io.connect('http://localhost:8888/player');
+    socket.on('connected', function (data) {
+        alert(data);
+    });
+
+    var playlistJson;
+    socket.on('playlistOn', function (data) {
+        $( "#inner" ).empty();
+        $( "#DataTable" ).empty();
+
+        playlistJson = $.parseJSON(data);
+        // $( "#inner" ).prepend(playlistJson.title );
+        $( "#playlist" ).empty();
+
+        for(var i = 0, l = 7; i < l; i++) {
+        var ranky = Math.floor(Math.random() * 20) + 0;
+        $("#playlist").append($("<div>").prop("id","label").prop( "class", "mix").prop("data-myorder", ranky)
+
+            .append($("<div>").prop("id","rank")
+            .append(  ranky ))
+
+            .append($("<div>").prop("id","title")
+            .append(  playlistJson.Tracks[i].title.substring(0,25) ))
+
+            .append($("<div>").prop("id","artist")
+            .append(  playlistJson.Tracks[i].Artist.name ))
+            );
+
+        }
+
+
+
+        // for(var i = 0, l = playlistJson.Tracks.length; i < l; i++) {
+        // for(var i = 0, l = 7; i < l; i++) {
+        //   $( "#DataTable" ).append( '<tr><td>' + playlistJson.Tracks[i].title + '</td><td id="'+i+'"></td></tr>' );
+        // }
+    });
+
+    socket.on('playlistOff', function (data) {
+        $( "#inner" ).empty();
+        $( "#inner" ).prepend(data);
+        $( "#DataTable" ).empty();
+        $( "#play" ).empty();
+        $( "#scroll" ).empty();
+        $( "#scroll").prepend(data);
+        $('.canvasld, .crl').leddisplay("destroy");
+        var options = {
+            pixelSize: 10, 
+            stepDelay: 100, 
+            horizontalPixelsCount:15,
+            verticalPixelsCount:5,
+            pixelRatio: 0.8
+        };
+        $('.canvasld, .crl').leddisplay($.extend(options, {pixelSize: 5}));
+    });
+
+    socket.on('current_track', function (data) {
+      $( "#play" ).empty();
+      $( "#play" ).append('<iframe height="0" width="0" scrolling="no" frameborder="0" allowTransparency="true" src="http://www.deezer.com/plugins/player?autoplay=true&playlist=false&width=700&height=80&cover=true&type=tracks&id='+data.DeezerId+'&title=&app_id=undefined" width="700" height="80"></iframe>');
+      $( "#scroll" ).empty();
+      var plop = data.Artist.name +" - "+data.title.substring(0,10) ;
+        $( "#scroll" ).empty();
+        $( "#scroll").prepend(plop);
+        $('.canvasld, .crl').leddisplay("destroy");
+        var options = {
+            pixelSize: 10, 
+            stepDelay: 100, 
+            horizontalPixelsCount:15,
+            verticalPixelsCount:5,
+            pixelRatio: 0.8
+        };
+        $('.canvasld, .crl').leddisplay($.extend(options, {pixelSize: 5}));
+
+    });
+
+
+    socket.on('votes', function (data) {
+      //alert(data);
+        var table = document.getElementById('DataTable')
+        for(var i = 0, l = data.length; i < l; i++) {
+          table.rows[i].cells[1].innerHTML = data[i];
+        }
+    });
+
+</script> 
+<script type="text/javascript" src="{% static 'player/js/jquery.leddisplay.js' %}"></script>
+
+<script type="text/javascript">
+      $( "#scroll" ).empty();
+      $( "#scroll").prepend("NO Tracks");
+      var options = {
+            pixelSize: 10, 
+            stepDelay: 100, 
+            horizontalPixelsCount:15,
+            verticalPixelsCount:5,
+            pixelRatio: 0.8
+        };
+        $('.canvasld, .crl').leddisplay($.extend(options, {pixelSize: 5}));
+</script>
 
 
         </footer>
