@@ -17,7 +17,7 @@
     });
     
     function playOn(){
-      socket.emit('playlistOn', "{{ playlist.to_json }}".replace(/&quot;/g,"\"") );
+      socket.emit('playlistOn', "{{ context }}".replace(/&quot;/g,"\"") );
     }
     function playOff(){
       socket.emit('playlistOff', "Aucune playlist en ligne" );

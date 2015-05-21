@@ -1,6 +1,6 @@
 
 	(L'id de la playlist est : {{ playlist.DeezerId }})
-	({{ playlist.getMinutes }})
+	({{ playlist.duration }})
 	<form>
 
 	Liste des morceaux :
@@ -15,11 +15,11 @@
 		        </tr>
 		    </thead>
 	    	<tbody>
-		        {% for tr in track_list %}
+		        {% for tr in tracks %}
 	             <tr>
-			       <td> {{tr.TrackId.title}} </td>
-			       <td> {{tr.TrackId.ArtistId.name}} </td>
-			       <td> {{tr.TrackId.getMinutes}} </td>
+			       <td> {{tr.title}} </td>
+			       <td> {{tr.Artist.name}} </td>
+			       <td> {{tr.duration}} </td>
 			   </tr>
 		        {% endfor %}
 		    </tbody>
