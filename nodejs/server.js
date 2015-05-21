@@ -25,7 +25,6 @@ nsp_manager.on('connection', function(socket){
   	//	playlist = limitedPlaylist(message, limit);
   	//} else { 
   		playlist = message ; 
-  	//}
 		playlistOnline = true;
         console.log('Manager says : ' + JSON.parse(playlist).title);
 		nsp_player.emit('playlistOn', playlist);
@@ -112,4 +111,19 @@ io.sockets.on('connection', function (socket) {
     console.log('user disconnected');
 	});
 });
+
+
+var request = require("request")
+
+var url = "http://0.0.0.0:8000/manager/getSession/"
+
+request({
+    url: url,
+    json: true
+}, function (error, response, body) {
+
+    if (!error && response.statusCode === 200) {
+        console.log(body) // Print the json response
+    }
+})
 
