@@ -1,10 +1,11 @@
 from django.db import models
-import pprint
-import sys
-import os
-import subprocess
 
+import unicodedata
 import requests
+import json
+
+# from fields import JSONField
+from json_field import JSONField
 import json
 
 
@@ -100,7 +101,8 @@ class Artist(models.Model):
 
     def to_dict(self):
         dico = {
-            "name": self.name,
+            "name": remove_accents(self.name[:16]),
+            # "name": self.name,
             "DeezerId": self.DeezerId,
             "link": self.link,
             "picture": self.picture,
@@ -120,13 +122,15 @@ class Track(models.Model):
 
     def to_dict(self):
         dico = {
-            "title": self.title,
+            "title": remove_accents(self.title[:25]),
+            # "title": self.title,
             "DeezerId": self.DeezerId,
             "link": self.link,
             "duration": self.duration,
             "minutes": self.getMinutes(),
             "msec": self.getmSec(),
             "Artist": None,
+            "vote": 0
         }
 
         art = Artist.objects.get(id=self.ArtistId.id)
@@ -154,3 +158,23 @@ class PlaylistEntry(models.Model):
     def __str__(self):              # __unicode__ on Python 2
         string = self.PlaylistId.title + ' - ' + str(elf.TrackId.title)
         return string
+
+    def to_dict(self):
+        dico = {}
+        return dico
+
+class PlaylistSession(models.Model):
+    Session = JSONField(blank=True, null=True)
+    # Session = JSONField(blank=True, null=True)
+
+    def __str__(self):              # __unicode__ on Python 2
+        # string = self.PlaylistId.title + ' - ' + str(elf.TrackId.title)
+        return str(self.id)
+
+
+def remove_accents(input_str):
+    nkfd_form = unicodedata.normalize('NFKD', input_str)
+    only_ascii = nkfd_form.encode('ASCII', 'ignore')
+    return only_ascii
+
+
