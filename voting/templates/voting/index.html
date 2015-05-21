@@ -22,59 +22,73 @@ socket = io.connect('http://localhost:8888/voting');
         $( "#DataTable" ).empty();
         $( "#inner" ).prepend($.parseJSON(data).title );
         titre = $.parseJSON(data).title ;
+        
+        
         if(sessionStorage.length != 0)
         {
             
-            // alert("sessionStorage in da hood"+sessionStorage.getItem(0));
-            var tempTab = new Array();
-            for(var i =0; i<sessionStorage.length; i++)
+            for(var i = 0; i < $.parseJSON(data).Tracks.length; i++) 
             {
-                alert(" sessionStorage "+ sessionStorage.key(i) );
-                if($.parseJSON(data).DeezerId=sessionStorage.key(i))
+                test=true;
+                for(var x = 0; x<sessionStorage.length;x++)
                 {
-                    for(var ii = 0, l = $.parseJSON(data).Tracks.length; ii < l; ii++) 
+                    // alert("sessionStorage value : "+sessionStorage.getItem(x)+" parseJSON value : "+$.parseJSON(data).Tracks[i].title);
+                    if(sessionStorage.getItem(x) == $.parseJSON(data).Tracks[i].DeezerId)
                     {
-
-                        for(var x=0; x<sessionStorage.getItem(sessionStorage.key(i)).length; x++)
-                        {
-                                if(sessionStorage.getItem(sessionStorage.key(i))[x]==ii)
-                                {
-                                    var samia = x;
-                                     $( "#DataTable" ).append( '<tr><td><input type="submit" style="visibility: hidden;" value="+" id="'+ii+'" onclick="vote('+ii+','+$.parseJSON(data).DeezerId+');" ></input></td><td>' + $.parseJSON(data).Tracks[ii].title +
-                                    '</td></tr>' );
-                                }
-                                else
-                                {
-                                     $( "#DataTable" ).append( '<tr><td><input type="submit" value="+" id="'+ii+'" onclick="vote('+ii+','+$.parseJSON(data).DeezerId+');" ></input></td><td>' + $.parseJSON(data).Tracks[ii].title +
-                                    '</td></tr>' );
-                                }
-                                
-                            
-                        }
+                        $( "#DataTable" ).append( '<tr><td></td><td>' + $.parseJSON(data).Tracks[i].title +
+            '</td></tr>' );
+                        test=false;
+                        break;
                     }
 
                 }
+                if(test)
+                {
+                   $( "#DataTable" ).append( '<tr><td><input type="submit" value="+" id="'+i+'" onclick="vote('+i+','+$.parseJSON(data).DeezerId+','+$.parseJSON(data).Tracks[i].DeezerId+');" ></input></td><td>' + $.parseJSON(data).Tracks[i].title +
+            '</td></tr>' ); 
+                }
+
+
             }
-        }
+         }
         else
         {
             for(var i = 0, l = $.parseJSON(data).Tracks.length; i < l; i++) 
             {
-            $( "#DataTable" ).append( '<tr><td><input type="submit" value="+" id="'+i+'" onclick="vote('+i+','+$.parseJSON(data).DeezerId+');" ></input></td><td>' + $.parseJSON(data).Tracks[i].title +
+            $( "#DataTable" ).append( '<tr><td><input type="submit" value="+" id="'+i+'" onclick="vote('+i+','+$.parseJSON(data).DeezerId+','+$.parseJSON(data).Tracks[i].DeezerId+');" ></input></td><td>' + $.parseJSON(data).Tracks[i].title +
             '</td></tr>' );
             }
+
         }
     });
 
-    function vote(i,pid)
+    function vote(x,pid,sid)
     {
-        tab[nombre]=i;
-        nombre++;
-        sessionStorage.setItem(pid,tab);
-       alert("tab "+sessionStorage.getItem(pid));
-        socket.emit('vote', i );
-        document.getElementById(i).style.visibility = "hidden"; 
-        //alert(sessionStorage.getItem(titre));
+        var tab = new Array();
+        if(sessionStorage.length != 0)
+        {
+            for(var i = 0; i < sessionStorage.length; i++)
+            {
+                tab[i] = sessionStorage.getItem(i);
+                temp=i;
+            }
+            sessionStorage.clear();
+        }
+        
+        tab[tab.length] = sid;
+
+        // alert("taille tab "+tab.length);
+
+        for(var i = 0; i<tab.length ; i++)
+        {
+            sessionStorage.setItem(i,tab[i]);
+        }
+        // nombre++;
+        
+        // alert("tab "+sessionStorage.getItem(pid));
+        socket.emit('vote', x );
+        document.getElementById(x).style.visibility = "hidden"; 
+       //  //alert(sessionStorage.getItem(titre));
     }
     
     socket.on('playlistOff', function (data) {
