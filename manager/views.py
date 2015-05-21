@@ -26,8 +26,8 @@ def select(request):
 
 def createSession(request):
     '''
-    Create a new playlist session (json format) from 
-    a playlist id in a post request and 
+    Create a new playlist session (json format) from
+    a playlist id in a post request and
     save it in th db
     '''
 
@@ -123,6 +123,32 @@ def nextTrack(request):
     return HttpResponse(jspData, content_type='application/json')
 
 
+def newVote(request):
+    if 'session_id' in request.POST:
+        sess = get_object_or_404(
+            PlaylistSession, id=request.POST['session_id'])
+
+    elif 'session_id' in request.GET:
+        sess = get_object_or_404(PlaylistSession, id=request.GET['session_id'])
+
+    else:
+        sess = PlaylistSession.objects.all()[0]
+
+    if 'vote_id'in request.GET:
+        sess = PlaylistSession.objects.all()[0]
+        print "vote_id " + request.GET['vote_id']
+        print "tracks :  ", sess.Session["tracks"][0]["DeezerId"]
+        for i in range(len(sess.Session["tracks"])):
+            print "tracks :  ", sess.Session["tracks"][i]["DeezerId"]
+            if  request.GET['vote_id'] == str(sess.Session["tracks"][i]["DeezerId"]):
+                print "nbre de vote :"  # , sess.Session.tracks[i].vote
+                sess.Session["tracks"][i]["vote"] += 1
+                print sess.Session["tracks"][i]["vote"]
+                sess.save()
+
+    return HttpResponse(sess, content_type='application/json')
+
+
 def playing(request):
     createSession(request)
     sess = PlaylistSession.objects.all()[0]
@@ -131,8 +157,11 @@ def playing(request):
     # player_type = 'playlist'
     # context = {'playlist': playlist,
     #            'track_list': track_list, 'type': player_type}
-    context = sess.Session
 
-    for tr in context['tracks']:
-    	print tr
+    context = sess.Session
+    # context = json.load(sess.Session)
+
+    print context
+    # for tr in context['tracks']:
+    # 	print tr
     return render(request, 'manager/playing.html', context)

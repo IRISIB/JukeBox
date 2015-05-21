@@ -17,9 +17,9 @@
     socket.on('playlistOn', function (data) {
         $( "#inner" ).empty();
         $( "#DataTable" ).empty();
-        $( "#inner" ).prepend($.parseJSON(data).title );
-        for(var i = 0, l = $.parseJSON(data).Tracks.length; i < l; i++) {
-          $( "#DataTable" ).append( '<tr><td><input type="submit" value="+" id="'+i+'" onclick="vote('+i+');" ></input></td><td>' + $.parseJSON(data).Tracks[i].title +
+        $( "#inner" ).prepend(data.playlist.title );
+        for(var i = 0, l = data.tracks.length; i < l; i++) {
+          $( "#DataTable" ).append( '<tr><td><input type="submit" value="+" id="'+i+'" onclick="vote('+data.tracks[i].DeezerId+');" ></input></td><td>' + data.tracks[i].title +
             '</td></tr>' );
         }
     });

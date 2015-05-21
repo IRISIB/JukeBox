@@ -12,32 +12,37 @@ var io = require('socket.io').listen(httpServer);
 var playlist = "Aucune playlist n'a été mise en ligne"; 
 var playlistOnline = false;
 var votes;
-var current_trackId;
+var current_track;
 var limit;
+var request = require("request")
+var url = "http://0.0.0.0:8000/manager/getSession/"
+var session = "plop";
+var cnt = 0;
 
 var nsp_manager = io.of('/manager');
 nsp_manager.on('connection', function(socket){
   console.log('Manager connected');
   socket.emit('connected', 'Hi Manager!');
   socket.on('playlistOn', function (message) {
+
+	// getJSON(url, function (body) {
+	//   console.log('we have the body!', body);
+ //  	  console.log(session, cnt); // Print the json response
+	//   session = body;
+	//   cnt = cnt + 1;
+ //  	  console.log(session, cnt); // Print the json response
+	// });
+  	  	console.log(session, cnt); // Print the json response
   		limit = 5;
-  	//if (JSON.parse(message).Tracks.length > limit){
-  	//	playlist = limitedPlaylist(message, limit);
-  	//} else { 
-  		playlist = message ; 
+        console.log('Manager says : ' + session.playlist.title);
 		playlistOnline = true;
-        console.log('Manager says : ' + JSON.parse(playlist).title);
-		nsp_player.emit('playlistOn', playlist);
-		nsp_voting.emit('playlistOn', playlist);
-		current_track = JSON.parse(playlist).Tracks[0];
-		nsp_player.emit('current_track', current_track);
-		votes = [];
-		for(var index in JSON.parse(playlist).Tracks){
-			console.log(index+": "+ JSON.parse(playlist).Tracks[index].title);
-			votes.push(0);
+		nsp_player.emit('playlistOn', session);
+		nsp_voting.emit('playlistOn', session);
+		current_track = session.current_track;
+		nsp_player.emit('current_track', session);
+		for(var index in session.tracks){
+			console.log(index+": "+ session.tracks[index].title);
 		}
-		nsp_player.emit('votes', votes);
-		setTimeout(reset, JSON.parse(playlist).Tracks[0].msec); 
 		
     }); 
 	
@@ -50,6 +55,17 @@ nsp_manager.on('connection', function(socket){
     }); 
 	
 });
+
+function getJSON(url, callback) {
+  request({
+    url: url,
+    json: true
+  }, function (error, response, body) {
+    if (!error && response.statusCode === 200) {
+      callback(body);
+    }
+  });
+}
 
 function limitedPlaylist(playlist, limit){
 	var newPlaylist = playlist;
@@ -71,8 +87,8 @@ function reset(){
       var maxIndex = votes.indexOf(Math.max.apply(Math, votes));
       console.log(maxIndex + " : " + JSON.parse(playlist).Tracks[maxIndex].title 
       				+ " - msec : " + JSON.parse(playlist).Tracks[maxIndex].msec);
-	  current_trackId = JSON.parse(playlist).Tracks[maxIndex];
-	  nsp_player.emit('current_track', current_trackId);
+	  current_track = JSON.parse(playlist).Tracks[maxIndex];
+	  nsp_player.emit('current_track', current_track);
 	  setTimeout(reset, JSON.parse(playlist).Tracks[maxIndex].msec);
 	}
 }
@@ -82,9 +98,7 @@ nsp_player.on('connection', function(socket){
   console.log('Player connected');
   socket.emit('connected', 'Hi Player!');
   if(playlistOnline){
-	socket.emit('playlistOn', playlist);
-	socket.emit('votes', votes);
-	socket.emit('current_track', current_trackId);
+	socket.emit('playlistOn', session);
 	}
   else{socket.emit('playlistOff', playlist);}
   
@@ -94,13 +108,18 @@ var nsp_voting = io.of('/voting');
 nsp_voting.on('connection', function(socket){
   console.log('Voting connected');
   socket.emit('connected', 'Hi Voting!');
-  if(playlistOnline){socket.emit('playlistOn', playlist);}
+  if(playlistOnline){socket.emit('playlistOn', session);}
   else{socket.emit('playlistOff', playlist);}
   
   socket.on('vote', function (message) {
         console.log('Voting says : ' + message);
-		votes[message]++;
-		nsp_player.emit('votes', votes);
+        for (var i = session.tracks.length - 1; i >= 0; i--) {
+        	if (session.tracks[i].DeezerId == message) {
+	        	session.tracks[i].vote++;
+        	};
+        };
+		nsp_player.emit('votes', session, message);
+    
     }); 
   
 });
@@ -124,6 +143,8 @@ request({
 
     if (!error && response.statusCode === 200) {
         console.log(body) // Print the json response
+        console.log('Manager says : ' + body.playlist.title)
+        session = body
     }
 })
 

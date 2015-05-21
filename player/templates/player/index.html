@@ -28,14 +28,14 @@
 
         <div id="blackboard" >
 
-            <div id="playlist" class="sort" data-sort="random">
+            <div id="playlist" class="sort" data-sort="myorder:desc">
 
-<!--                 <div id="label" class="mix" data-myorder="1">
+                 <div id="label" class="mix" data-myorder="1">
                     <div id="rank">1</div>
                     <div id="title">Titre de la chanson</div>
                     <div id="artist">Artist</div>
                 </div>
-                
+ <!--               
                 <div id="label" class="mix" data-myorder="2">
                     <div id="rank">2</div>
                     <div id="title">Titre de la chanson</div>
@@ -125,29 +125,47 @@
     });
 
     var playlistJson;
+    // var url = "http://0.0.0.0:8000/manager/getSession/"
+    // var resquest = require("request")
+    
     socket.on('playlistOn', function (data) {
         $( "#inner" ).empty();
         $( "#DataTable" ).empty();
 
-        playlistJson = $.parseJSON(data);
+        // request({
+        //     url: url,
+        //     json: true
+        // }, function (error, response, body) {
+
+        //     if (!error && response.statusCode === 200) {
+        //         console.log(body) // Print the json response
+        //         console.log('Manager says : ' + body.playlist.title)
+        //         playlistJson = body
+        //     }
+        // })
+
+        data;
+        // playlistJson = $.parseJSON(data);
         // $( "#inner" ).prepend(playlistJson.title );
         $( "#playlist" ).empty();
-
         for(var i = 0, l = 7; i < l; i++) {
-        var ranky = Math.floor(Math.random() * 20) + 0;
-        $("#playlist").append($("<div>").prop("id","label").prop( "class", "mix").prop("data-myorder", ranky)
+        $("#playlist").append($("<div data-myorder=" + data.tracks[i].vote +">").prop("id","label").prop( "class", "mix")
 
             .append($("<div>").prop("id","rank")
-            .append(  ranky ))
+            .append(  data.tracks[i].vote ))
 
             .append($("<div>").prop("id","title")
-            .append(  playlistJson.Tracks[i].title.substring(0,25) ))
+            .append(  data.tracks[i].title.substring(0,25) ))
 
             .append($("<div>").prop("id","artist")
-            .append(  playlistJson.Tracks[i].Artist.name ))
+            .append(  data.tracks[i].Artist.name ))
             );
 
+
         }
+
+        $('#playlist').mixItUp('sort', 'myorder:desc');
+        // $('#playlist').mixItUp('sort', 'random', true);
 
 
 
@@ -176,31 +194,36 @@
     });
 
     socket.on('current_track', function (data) {
-      $( "#play" ).empty();
-      $( "#play" ).append('<iframe height="0" width="0" scrolling="no" frameborder="0" allowTransparency="true" src="http://www.deezer.com/plugins/player?autoplay=true&playlist=false&width=700&height=80&cover=true&type=tracks&id='+data.DeezerId+'&title=&app_id=undefined" width="700" height="80"></iframe>');
-      $( "#scroll" ).empty();
-      var plop = data.Artist.name +" - "+data.title.substring(0,10) ;
-        $( "#scroll" ).empty();
-        $( "#scroll").prepend(plop);
-        $('.canvasld, .crl').leddisplay("destroy");
-        var options = {
-            pixelSize: 10, 
-            stepDelay: 100, 
-            horizontalPixelsCount:15,
-            verticalPixelsCount:5,
-            pixelRatio: 0.8
-        };
-        $('.canvasld, .crl').leddisplay($.extend(options, {pixelSize: 5}));
-
+        $.getJSON("{% url 'manager:next' %}", function(json){
+        nextTrack(json); //2000 is equivalent to 2 seconds
+        });
     });
 
 
-    socket.on('votes', function (data) {
-      //alert(data);
-        var table = document.getElementById('DataTable')
-        for(var i = 0, l = data.length; i < l; i++) {
-          table.rows[i].cells[1].innerHTML = data[i];
+    socket.on('votes', function (data, message) {
+      // alert(data);
+        // var table = document.getElementById('DataTable')
+        // for(var i = 0, l = data.length; i < l; i++) {
+        //   table.rows[i].cells[1].innerHTML = data[i];
+        // }
+        $( "#playlist" ).empty();
+        for(var i = 0, l = 7; i < l; i++) {
+        $("#playlist").append($("<div data-myorder=" + data.tracks[i].vote +">").prop("id","label").prop( "class", "mix")
+
+            .append($("<div>").prop("id","rank")
+            .append(  data.tracks[i].vote ))
+
+            .append($("<div>").prop("id","title")
+            .append(  data.tracks[i].title.substring(0,25) ))
+
+            .append($("<div>").prop("id","artist")
+            .append(  data.tracks[i].Artist.name ))
+            );
         }
+        // ²t("voting");
+        $('#playlist').mixItUp('sort', 'myorder:desc', true);
+        $.getJSON("{% url 'manager:vote' %}", { vote_id : message}, function(json){
+        });
     });
 
 </script> 
@@ -217,6 +240,39 @@
             pixelRatio: 0.8
         };
         $('.canvasld, .crl').leddisplay($.extend(options, {pixelSize: 5}));
+</script>
+
+<script>
+    function redirect(){
+       window.location.href = "http://localhost:8888/manager/next/";
+    }
+
+function nextTrack (data) {
+
+    $( "#play" ).empty();
+    $( "#play" ).append('<iframe height="0" width="0" scrolling="no" frameborder="0" allowTransparency="true" src="http://www.deezer.com/plugins/player?autoplay=true&playlist=false&width=700&height=80&cover=true&type=tracks&id='+data.current_track.DeezerId+'&title=&app_id=undefined" width="700" height="80"></iframe>');
+    $( "#scroll" ).empty();
+    var plop = data.current_track.Artist.name +" - "+data.current_track.title.substring(0,10) ;
+    $( "#scroll" ).empty();
+    $( "#scroll").prepend(plop);
+    $('.canvasld, .crl').leddisplay("destroy");
+    var options = {
+        pixelSize: 10, 
+        stepDelay: 100, 
+        horizontalPixelsCount:15,
+        verticalPixelsCount:5,
+        pixelRatio: 0.8
+    };
+    $('.canvasld, .crl').leddisplay($.extend(options, {pixelSize: 5}));
+
+    // setTimeout(getSession, data.current_track.msec)
+    setTimeout(getSession, 20000)
+}
+
+function getSession (argument) {
+    $.getJSON("{% url 'manager:next' %}", function(json){
+        nextTrack(json); //2000 is equivalent to 2 seconds
+        });}
 </script>
 
 

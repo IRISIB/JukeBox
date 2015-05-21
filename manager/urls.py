@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^createSession/', views.createSession, name='newSession'),
     url(r'^getSession/', views.getSession, name='getSession'),
     url(r'^next/', views.nextTrack, name='next'),
+    url(r'^vote/', views.newVote, name='vote'),
 )
