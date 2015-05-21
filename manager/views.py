@@ -7,9 +7,11 @@ import json
 
 from random import randrange
 
+
 def index(request):
     playlists = Playlist.objects.all()
     return render(request, 'manager/index.html', {'playlists': playlists})
+
 
 def update(request):
     import_playlists()
@@ -31,7 +33,9 @@ def createSession(request):
 
     data = {"playlist": None,
             "current_track": None,
-            "tracks": None}
+            "tracks": None,
+            "played": None,
+            }
 
     if 'choice' in request.POST:
         playlist_id = request.POST['choice']
@@ -76,6 +80,8 @@ def getSession(request):
 
     jspData = json.dumps(sess.Session, sort_keys=True, indent=4)
 
+    print jspData
+
     return HttpResponse(jspData, content_type='application/json')
 
 
@@ -116,3 +122,17 @@ def nextTrack(request):
 
     return HttpResponse(jspData, content_type='application/json')
 
+
+def playing(request):
+    createSession(request)
+    sess = PlaylistSession.objects.all()[0]
+    # playlist = sess.Session["playlist"]
+    # track_list = PlaylistEntry.objects.all().filter(PlaylistId=playlist.id)
+    # player_type = 'playlist'
+    # context = {'playlist': playlist,
+    #            'track_list': track_list, 'type': player_type}
+    context = sess.Session
+
+    for tr in context['tracks']:
+    	print tr
+    return render(request, 'manager/playing.html', context)
