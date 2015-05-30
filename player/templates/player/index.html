@@ -117,9 +117,9 @@
 
     <script src="{% static 'player/js/main.js' %}"></script>   
 
-<script src="http://localhost:8888/socket.io/socket.io.js"></script>
+<script src="http://172.30.7.77:8888/socket.io/socket.io.js"></script>
 <script>
-    socket = io.connect('http://localhost:8888/player');
+    socket = io.connect('http://172.30.7.77:8888/player');
     socket.on('connected', function (data) {
         alert(data);
     });
@@ -147,24 +147,29 @@
         data;
         // playlistJson = $.parseJSON(data);
         // $( "#inner" ).prepend(playlistJson.title );
-        $( "#playlist" ).empty();
-        for(var i = 0, l = 7; i < l; i++) {
-        $("#playlist").append($("<div data-myorder=" + data.tracks[i].vote +">").prop("id","label").prop( "class", "mix")
+        // $.moveBoard();
+        // $.getJSON("{% url 'manager:getSession' %}", function(json){
+        // nextTrack(json); //2000 is equivalent to 2 seconds
+        // });
+        moveBoard(data);
+        // $( "#playlist" ).empty();
+        // for(var i = 0, l = 7; i < l; i++) {
+        // $("#playlist").append($("<div data-myorder=" + data.tracks[i].vote +">").prop("id","label").prop( "class", "mix")
 
-            .append($("<div>").prop("id","rank")
-            .append(  data.tracks[i].vote ))
+        //     .append($("<div>").prop("id","rank")
+        //     .append(  data.tracks[i].vote ))
 
-            .append($("<div>").prop("id","title")
-            .append(  data.tracks[i].title.substring(0,25) ))
+        //     .append($("<div>").prop("id","title")
+        //     .append(  data.tracks[i].title.substring(0,25) ))
 
-            .append($("<div>").prop("id","artist")
-            .append(  data.tracks[i].Artist.name ))
-            );
+        //     .append($("<div>").prop("id","artist")
+        //     .append(  data.tracks[i].Artist.name ))
+        //     );
 
 
-        }
+        // }
 
-        $('#playlist').mixItUp('sort', 'myorder:desc');
+        // $('#playlist').mixItUp('sort', 'myorder:desc');
         // $('#playlist').mixItUp('sort', 'random', true);
 
 
@@ -194,7 +199,7 @@
     });
 
     socket.on('current_track', function (data) {
-        $.getJSON("{% url 'manager:next' %}", function(json){
+        $.getJSON("{% url 'manager:getSession' %}", function(json){
         nextTrack(json); //2000 is equivalent to 2 seconds
         });
     });
@@ -206,22 +211,22 @@
         // for(var i = 0, l = data.length; i < l; i++) {
         //   table.rows[i].cells[1].innerHTML = data[i];
         // }
-        $( "#playlist" ).empty();
-        for(var i = 0, l = 7; i < l; i++) {
-        $("#playlist").append($("<div data-myorder=" + data.tracks[i].vote +">").prop("id","label").prop( "class", "mix")
+        // $( "#playlist" ).empty();
+        // for(var i = 0, l = 7; i < l; i++) {
+        // $("#playlist").append($("<div data-myorder=" + data.tracks[i].vote +">").prop("id","label").prop( "class", "mix")
 
-            .append($("<div>").prop("id","rank")
-            .append(  data.tracks[i].vote ))
+        //     .append($("<div>").prop("id","rank")
+        //     .append(  data.tracks[i].vote ))
 
-            .append($("<div>").prop("id","title")
-            .append(  data.tracks[i].title.substring(0,25) ))
+        //     .append($("<div>").prop("id","title")
+        //     .append(  data.tracks[i].title.substring(0,25) ))
 
-            .append($("<div>").prop("id","artist")
-            .append(  data.tracks[i].Artist.name ))
-            );
-        }
-        // ²t("voting");
-        $('#playlist').mixItUp('sort', 'myorder:desc', true);
+        //     .append($("<div>").prop("id","artist")
+        //     .append(  data.tracks[i].Artist.name ))
+        //     );
+        // }
+        // // ²t("voting");
+        // $('#playlist').mixItUp('sort', 'myorder:desc', true);
         $.getJSON("{% url 'manager:vote' %}", { vote_id : message}, function(json){
         });
     });
@@ -249,6 +254,7 @@
 
 function nextTrack (data) {
 
+
     $( "#play" ).empty();
     $( "#play" ).append('<iframe height="0" width="0" scrolling="no" frameborder="0" allowTransparency="true" src="http://www.deezer.com/plugins/player?autoplay=true&playlist=false&width=700&height=80&cover=true&type=tracks&id='+data.current_track.DeezerId+'&title=&app_id=undefined" width="700" height="80"></iframe>');
     $( "#scroll" ).empty();
@@ -265,14 +271,46 @@ function nextTrack (data) {
     };
     $('.canvasld, .crl').leddisplay($.extend(options, {pixelSize: 5}));
 
-    // setTimeout(getSession, data.current_track.msec)
-    setTimeout(getSession, 20000)
+    setTimeout(getSession, data.current_track.msec)
+    // setTimeout(getSession, 40000)
 }
 
 function getSession (argument) {
     $.getJSON("{% url 'manager:next' %}", function(json){
         nextTrack(json); //2000 is equivalent to 2 seconds
         });}
+
+
+function moveBoard (data) {
+    $( "#playlist" ).empty();
+        for(var i = 0, l = data.tracks.length; i < l; i++) {
+
+        $("#playlist").append($("<div data-myorder=" + data.tracks[i].vote +">").prop("id","label").prop( "class", "mix")
+
+            .append($("<div>").prop("id","rank")
+            .append(  data.tracks[i].vote ))
+
+            .append($("<div>").prop("id","title")
+            .append(  data.tracks[i].title.substring(0,25) ))
+
+            .append($("<div>").prop("id","artist")
+            .append(  data.tracks[i].Artist.name ))
+            );
+        
+
+        }
+        // ²t("voting");
+        $('#playlist').mixItUp('sort', 'myorder:desc', true);    // body...
+        
+       
+            setTimeout(function(){
+                $.getJSON("{% url 'manager:getSession' %}", function(json){ 
+                    moveBoard(json);
+                }); 
+            }, 20000);
+            // moveBoard(json); //2000 is equivalent to 2 seconds
+       
+}
 </script>
 
 
