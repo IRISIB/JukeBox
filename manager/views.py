@@ -48,9 +48,13 @@ def createSession(request):
 
         for entry in track_list:
             ldtracks.append(entry.TrackId.to_dict())
+            # print entry.TrackId.to_dict()
 
-        current_track = track_list[0]
-        dcurrent_track = current_track.to_dict()
+        # print ldtracks
+        current_track = track_list[0].TrackId.to_dict()
+        dcurrent_track = current_track
+
+        # print current_track
 
         data = {"playlist": dplaylist,
                 "current_track": dcurrent_track,
@@ -99,6 +103,12 @@ def nextTrack(request):
     # >>> sorted(student_objects, key=lambda student: student.age)   # sort by age
     # [('dave', 'B', 10), ('jane', 'B', 12), ('john', 'A', 15)]
     track_list = sess.Session["tracks"]
+    toReset = sess.Session['current_track']['DeezerId']
+
+    for i in range(len(sess.Session["tracks"])):
+        if str(toReset) == str(sess.Session["tracks"][i]["DeezerId"]):
+            sess.Session["tracks"][i]["vote"] = 0
+            # sess.save()
 
     maxVote = 0
     # nextTrack = sess.Session["current_track"]["DeezerId"]
@@ -106,10 +116,10 @@ def nextTrack(request):
     nextTrack = track_list[randrange(len(track_list))]["DeezerId"]
 
     for track in track_list:
-        if track['vote'] > maxVote:
+        if int(track['vote']) > maxVote:
+            maxVote = int(track['vote'])
             nextTrack = track["DeezerId"]
-
-    print nextTrack
+            print nextTrack
 
     current_track = get_object_or_404(Track, DeezerId=nextTrack)
     dcurrent_track = current_track.to_dict()
@@ -140,7 +150,7 @@ def newVote(request):
         print "tracks :  ", sess.Session["tracks"][0]["DeezerId"]
         for i in range(len(sess.Session["tracks"])):
             print "tracks :  ", sess.Session["tracks"][i]["DeezerId"]
-            if  request.GET['vote_id'] == str(sess.Session["tracks"][i]["DeezerId"]):
+            if request.GET['vote_id'] == str(sess.Session["tracks"][i]["DeezerId"]):
                 print "nbre de vote :"  # , sess.Session.tracks[i].vote
                 sess.Session["tracks"][i]["vote"] += 1
                 print sess.Session["tracks"][i]["vote"]
