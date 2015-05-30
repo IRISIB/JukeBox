@@ -156,7 +156,7 @@ class PlaylistEntry(models.Model):
     TrackId = models.ForeignKey(Track)
 
     def __str__(self):              # __unicode__ on Python 2
-        string = self.PlaylistId.title + ' - ' + str(elf.TrackId.title)
+        string = self.PlaylistId.title + ' - ' + str(self.TrackId.title)
         return string
 
     def to_dict(self):
